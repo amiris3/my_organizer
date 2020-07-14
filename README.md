@@ -17,6 +17,7 @@ set of oral exams for each subject) and handle college exams.
 <img src="assets/Screenshot_homescreen.jpg" height = 400> 
 <img src="assets/Screenshot_weekly.jpg" height = 400> 
 <img src="assets/Screenshot_subjects.jpg" height = 400>
+ <img src="assets/Screenshot_subject_details.jpg" height = 400>
 <img src="assets/Screenshot_add.jpg" height = 400> 
 <img src="assets/Screenshot_form_kh.jpg" height = 400>
 <img src="assets/Screenshot_form_exam.jpg" height = 400>
