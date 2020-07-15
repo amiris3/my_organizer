@@ -1,4 +1,4 @@
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/exam_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:OrganiZer/models/exam.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';

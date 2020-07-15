@@ -1,4 +1,4 @@
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/subject_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:OrganiZer/models/subject.dart';
 

@@ -1,7 +1,8 @@
+import 'package:OrganiZer/database/exam_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:OrganiZer/models/exam.dart';
 import 'package:OrganiZer/models/subject.dart';
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/subject_provider.dart';
 import 'subject_details_screen.dart';
 
 class AllSubjectsScreen extends StatefulWidget {

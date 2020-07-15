@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:OrganiZer/models/lesson.dart';
 import 'package:OrganiZer/models/exam.dart';
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/exam_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

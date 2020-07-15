@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/exam_provider.dart';
 import 'subject.dart';
 import 'exam.dart';
 

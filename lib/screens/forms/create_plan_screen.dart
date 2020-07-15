@@ -1,4 +1,4 @@
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/subject_provider.dart';
 import 'package:OrganiZer/models/plan.dart';
 import 'package:OrganiZer/screens/screen_start.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +86,10 @@ class _CreatePlanScreenState extends State {
                     Column(
                     children: [
                       Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 10.0,
+                        ),
                         height: MediaQuery.of(context).size.height-400,
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
@@ -99,38 +103,54 @@ class _CreatePlanScreenState extends State {
                               : ListView.builder(
                             itemCount: allSubjects.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Container(
-                                margin: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 20.0, right: 20.0),
-                                padding:
-                                EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.orange[100].withOpacity(0.5),
-                                      Colors.green[100].withOpacity(0.35),
-                                      Colors.orange[100].withOpacity(0.5),
-                                    ],
+                              return Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FloatingActionButton(
+                                    mini: true,
+                                    heroTag:  "btn$index",
+                                    backgroundColor: Colors.red[900],
+                                    child: Icon(Icons.delete),
+                                    onPressed: () {
+                                      setState(() {
+                                        allSubjects.removeAt(index);
+                                      });
+                                      },
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 20.0, right: 20.0),
+                                    padding:
+                                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.orange[100].withOpacity(0.5),
+                                          Colors.green[100].withOpacity(0.35),
+                                          Colors.orange[100].withOpacity(0.5),
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        Text(
-                                          allSubjects[index].name.toUpperCase(),
-                                          style: TextStyle(
-                                            color: Colors.deepPurple[900],
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              allSubjects[index].name.toUpperCase(),
+                                              style: TextStyle(
+                                                color: Colors.deepPurple[900],
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               );
                             },
                           ),

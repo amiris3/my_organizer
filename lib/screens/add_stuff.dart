@@ -1,7 +1,7 @@
 import 'file:///C:/Users/Public/Documents/my_organizer/lib/screens/forms/add_exam.dart';
 import 'file:///C:/Users/Public/Documents/my_organizer/lib/screens/forms/add_subject.dart';
 import 'file:///C:/Users/Public/Documents/my_organizer/lib/screens/forms/create_plan_screen.dart';
-import 'package:OrganiZer/database/database.dart';
+import 'package:OrganiZer/database/subject_provider.dart';
 import 'package:OrganiZer/models/subject.dart';
 import 'package:flutter/material.dart';
 

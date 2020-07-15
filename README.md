@@ -10,14 +10,13 @@ set of oral exams for each subject) and handle college exams.
 - [x] weekly screen where is displayed corresponding daily exams (selectable day)
 - [x] displays list of subjects with links to specific details for each of them
 - [x] displays subject details (completion rate, average grade, list of exams with names, dates and grades)
-- [x] possible to add exams, subjects and create another khôlloscope (with already entered subjects(mandatory) and new ones)
+- [x] possible to add exams, subjects and create another khôlloscope (with already entered subjects and/or new ones)
 
 
 ## ScreenShots
 <img src="assets/Screenshot_homescreen.jpg" height = 400> 
 <img src="assets/Screenshot_weekly.jpg" height = 400> 
 <img src="assets/Screenshot_subjects.jpg" height = 400>
- <img src="assets/Screenshot_subject_details.jpg" height = 400>
 <img src="assets/Screenshot_add.jpg" height = 400> 
 <img src="assets/Screenshot_form_kh.jpg" height = 400>
 <img src="assets/Screenshot_form_exam.jpg" height = 400>
