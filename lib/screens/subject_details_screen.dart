@@ -60,9 +60,9 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                         radius: 80,
                         lineWidth: 13.0,
                         animation: true,
-                        percent: getCompletionRate(),
+                        percent: getCompletionRate()/100,
                         center: new Text(
-                          (getCompletionRate()*100).toString() + '%',
+                          getCompletionRate().toString() + '%',
                           style:
                           new TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20.0),
@@ -214,10 +214,15 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
 
   getCompletionRate() {
     double completionRate = 0;
-    for (Exam exam in widget.allExams) {
-      if (exam.isDone) completionRate++;
+    if (widget.allExams.length != 0) {
+      for (Exam exam in widget.allExams) {
+        if (exam.isDone) completionRate++;
+      }
+      completionRate = completionRate / widget.allExams.length;
+      completionRate *= 100;
+      completionRate = completionRate.roundToDouble();
     }
-    return completionRate/widget.allExams.length;
+    return completionRate;
   }
 
 }

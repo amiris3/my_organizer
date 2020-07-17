@@ -160,7 +160,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
             children: [
               Container(
                 width: 15,
-                height: 10,
+                height: 15,
                 decoration: BoxDecoration(
                     color: Colors.deepPurple[600],
                     borderRadius: BorderRadius.horizontal(
@@ -179,6 +179,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                       text: TextSpan(
                           text: exam.date.hour.toString(),
                           style: TextStyle(
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                           ),
@@ -210,61 +211,80 @@ class _WeeklyScreenState extends State<WeeklyScreen>
           SizedBox(
             height: 10,
           ),
-          Container(
-            height: 90,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border.all(width: 2),
-                borderRadius: BorderRadius.circular(20)),
-            margin: EdgeInsets.only(right: 10, left: 30),
-            padding: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(width: 14),
+              Transform.scale(
+                scale: 1.7,
+                child: Checkbox(
+                  value: exam.isDone,
+                  onChanged: (bool newValue) async {
+                    exam.isDone = newValue;
+                    await ExamProvider.dbExams.updateExam(exam);
+                    refreshList();
+                  },
+                  activeColor: Color.fromRGBO(144, 202, 226, 1),
+                ),
+              ),
+              Container(
+                height: 90,
+                width: MediaQuery.of(context).size.width -110,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 2),
+                    borderRadius: BorderRadius.circular(20)),
+                margin: EdgeInsets.only(right: 10, left: 30),
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.deepPurple,
-                      child: Text(
-                        exam.isKholle ? "K" : "DS",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          exam.subjectName,
-                          style: TextStyle(
-                            fontSize: 18,
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.deepPurple,
+                          child: Text(
+                            exam.isKholle ? "K" : "DS",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                         SizedBox(
-                          height: 5,
+                          width: 10,
                         ),
-                        Text(
-                          exam.isKholle
-                              ? "Kholle n° " + exam.examId.toString()
-                              : "Exam n° " + exam.examId.toString(),
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey,
-                          ),
-                        )
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              exam.subjectName,
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              exam.isKholle
+                                  ? "Kholle n° " + exam.examId.toString()
+                                  : "Exam n° " + exam.examId.toString(),
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           )
         ],
       ),
