@@ -1,4 +1,4 @@
-import 'package:OrganiZer/models/exam.dart';
+import '../models/exam.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -86,7 +86,10 @@ class ExamProvider {
 
   Future<void> updateExam(Exam exam) async {
     final db = await database;
-    await db.update(TABLE_EXAM_NAME, exam.toMap(), where: '$COLUMN_EXAM_ID = ?',
+    await db.update(
+        TABLE_EXAM_NAME,
+        exam.toMap(),
+        where: '$COLUMN_EXAM_ID = ?',
         whereArgs: [exam.examId]);
   }
 

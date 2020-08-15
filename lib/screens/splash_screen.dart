@@ -1,5 +1,5 @@
-import 'package:OrganiZer/screens/forms/create_plan_screen.dart';
-import 'package:OrganiZer/screens/screen_start.dart';
+import '../screens/forms/create_plan_screen.dart';
+import '../screens/screen_start.dart';
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';

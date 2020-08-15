@@ -11,6 +11,8 @@ set of oral exams for each subject) and handle college exams.
 - [x] displays list of subjects with links to specific details for each of them
 - [x] displays subject details (completion rate, average grade, list of exams with names, dates and grades)
 - [x] possible to add exams, subjects and create another khôlloscope (with already entered subjects and/or new ones)
+- [x] possible to check exams when done (on the weekly schedule)
+- [ ] possible to update exams (add/change grade, ...)
 
 
 ## ScreenShots
@@ -37,7 +39,7 @@ set of oral exams for each subject) and handle college exams.
 - Models: Exam, Lesson (with dummy data), Plan and Subject class declarations
 - Screens: contains all screens and forms
 - Forms: Subject, Exam and Plan forms
-- Widgets: the splash screen 
+- Widgets: the way every form is laid out 
 
 ## Author
 **Lou Cherensac** 

@@ -1,8 +1,9 @@
-import 'package:OrganiZer/database/exam_provider.dart';
+import '../database/exam_provider.dart';
+import '../styling.dart';
 import 'package:flutter/material.dart';
-import 'package:OrganiZer/models/exam.dart';
-import 'package:OrganiZer/models/subject.dart';
-import 'package:OrganiZer/database/subject_provider.dart';
+import '../models/exam.dart';
+import '../models/subject.dart';
+import '../database/subject_provider.dart';
 import 'subject_details_screen.dart';
 
 class AllSubjectsScreen extends StatefulWidget {
@@ -35,27 +36,18 @@ class _AllSubjectsScreenState extends State<AllSubjectsScreen>{
       children: [
         Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(226, 212, 250, 1),
-                  Color.fromRGBO(144, 202, 226, 1),
-                ],
-              )),
+              gradient: mainGradient),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           alignment: Alignment.topCenter,
           height: MediaQuery.of(context).size.height,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.assignment, color: Colors.deepPurple[900],),
-              SizedBox(
-                width: 15,
-              ),
               Text(
                 "Your subjects",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple[600],
+                  color: primaryColor,
                   fontSize: 22,
                 ),
               ),
@@ -97,13 +89,7 @@ class _AllSubjectsScreenState extends State<AllSubjectsScreen>{
                     padding:
                     EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.orange[100].withOpacity(0.5),
-                          Colors.green[100].withOpacity(0.35),
-                          Colors.orange[100].withOpacity(0.5),
-                        ],
-                      ),
+                      gradient: listGradient,
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
                     child: Row(
@@ -112,7 +98,7 @@ class _AllSubjectsScreenState extends State<AllSubjectsScreen>{
                         Text(
                           allSubjects[index].name.toUpperCase(),
                           style: TextStyle(
-                            color: Colors.deepPurple[900],
+                            color: primaryColor,
                             fontSize: 18.0,
                             fontWeight: FontWeight.w400,
                           ),

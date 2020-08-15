@@ -1,4 +1,4 @@
-import 'package:OrganiZer/widgets/splash_screen.dart';
+import 'screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 

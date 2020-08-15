@@ -1,4 +1,5 @@
-import 'package:OrganiZer/models/exam.dart';
+import '../models/exam.dart';
+import '../styling.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -25,16 +26,11 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.deepPurple[900],
+          backgroundColor: primaryColor,
         ),
         body: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(226, 212, 250, 1),
-                  Color.fromRGBO(144, 202, 226, 1),
-                ],
-              )),
+              gradient: mainGradient),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           alignment: Alignment.topCenter,
           child: Column(
@@ -62,7 +58,8 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                         animation: true,
                         percent: getCompletionRate()/100,
                         center: new Text(
-                          getCompletionRate().toString() + '%',
+                          getCompletionRate().toString().replaceAll(
+                              RegExp(r"([.]*0)(?!.*\d)"), "") + '%',
                           style:
                           new TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20.0),
@@ -129,13 +126,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                       padding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.orange[100].withOpacity(0.5),
-                            Colors.green[100].withOpacity(0.35),
-                            Colors.orange[100].withOpacity(0.5),
-                          ],
-                        ),
+                        gradient: listGradient,
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
                       ),
                       child: Row(

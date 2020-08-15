@@ -1,8 +1,9 @@
-import 'add_stuff.dart';
-import 'all_subjects_screen.dart';
-import 'weekly_screen.dart';
+import '../styling.dart';
 import 'package:flutter/material.dart';
 import 'home_screen.dart';
+import 'weekly_screen.dart';
+import 'all_subjects_screen.dart';
+import 'add_stuff_screen.dart';
 
 class ScreenStart extends StatefulWidget {
   @override
@@ -10,12 +11,16 @@ class ScreenStart extends StatefulWidget {
 }
 
 class _ScreenStartState extends State<ScreenStart> {
-  int _selectedItemIndex = 2;
+  int _selectedItemIndex = 0;
   final List pages = [
     HomeScreen(),
     WeeklyScreen(),
     AllSubjectsScreen(),
     AddStuffScreen()
+  ];
+
+  List<IconData> icons = [
+    Icons.home, Icons.today, Icons.assessment, Icons.add_circle_outline
   ];
 
   @override
@@ -25,11 +30,10 @@ class _ScreenStartState extends State<ScreenStart> {
           elevation: 0,
           selectedFontSize: 0,
           unselectedFontSize: 0,
-          backgroundColor: Colors.lightBlue[100].withOpacity(0.5),
+          backgroundColor: barColor,
           unselectedItemColor: Colors.black45,
-          selectedItemColor: Colors.deepPurple[600],
           selectedIconTheme: IconThemeData(
-              color: Colors.deepPurple[700]
+              color: primaryColor
           ),
           currentIndex: _selectedItemIndex,
           type: BottomNavigationBarType.fixed,
@@ -39,22 +43,11 @@ class _ScreenStartState extends State<ScreenStart> {
             });
             },
           items: [
-            BottomNavigationBarItem(
-              title: Text(''),
-              icon: Icon(Icons.home),
-            ),
-            BottomNavigationBarItem(
-              title: Text(''),
-              icon: Icon(Icons.today),
-            ),
-            BottomNavigationBarItem(
-              title: Text(''),
-              icon: Icon(Icons.assessment),
-            ),
-            BottomNavigationBarItem(
-              title: Text(''),
-              icon: Icon(Icons.add_circle_outline),
-            ),
+            for (IconData icon in icons)
+              BottomNavigationBarItem(
+                title: Text(''),
+                icon: Icon(icon),
+              ),
           ],
           iconSize: 28,
         ),

@@ -1,7 +1,8 @@
+import '../styling.dart';
 import 'package:flutter/material.dart';
-import 'package:OrganiZer/models/lesson.dart';
-import 'package:OrganiZer/models/exam.dart';
-import 'package:OrganiZer/database/exam_provider.dart';
+import '../models/lesson.dart';
+import '../models/exam.dart';
+import '../database/exam_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -33,12 +34,7 @@ class _HomeScreenState extends State<HomeScreen>{
       children: [
         Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(226, 212, 250, 1),
-                  Color.fromRGBO(144, 202, 226, 1),
-                ],
-              )),
+              gradient: mainGradient),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
           child: Column(
             children: [
@@ -71,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 55,
-                    height: 55,
+                    width: 65,
+                    height: 65,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(width: 1, color: Colors.white),
@@ -136,16 +132,16 @@ class _HomeScreenState extends State<HomeScreen>{
               children: [
                 buildTitleRow("TODAY'S CLASSES ", 2),
                 SizedBox(
-                  height: 15,
+                  height: 24,
                 ),
                 buildLessonItem(dummyLesson[0]),
                 buildLessonItem(dummyLesson[1]),
                 SizedBox(
-                  height: 22,
+                  height: 45,
                 ),
                 buildTitleRow("THIS WEEK'S EXAMS ", allExams.length),
                 SizedBox(
-                  height: 15,
+                  height: 24,
                 ),
                 loading ? CircularProgressIndicator() : SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

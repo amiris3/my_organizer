@@ -1,4 +1,4 @@
-import 'package:OrganiZer/models/subject.dart';
+import '../models/subject.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,8 +8,6 @@ class SubjectProvider {
   static const String COLUMN_SUBJECT_ID = "id";
   static const String COLUMN_SUBJECT_KH_NB = "khNb";
   static const String COLUMN_SUBJECT_NAME = "name";
-  static const String COLUMN_SUBJECT_SEMESTER = "semester";
-
 
   SubjectProvider._();
   static final SubjectProvider dbSubjects = SubjectProvider._();
@@ -31,8 +29,7 @@ class SubjectProvider {
               "CREATE TABLE $TABLE_SUBJECT_NAME ("
                   "$COLUMN_SUBJECT_ID INTEGER PRIMARY KEY,"
                   "$COLUMN_SUBJECT_KH_NB INTEGER,"
-                  "$COLUMN_SUBJECT_NAME TEXT,"
-                  "$COLUMN_SUBJECT_SEMESTER TEXT)"
+                  "$COLUMN_SUBJECT_NAME TEXT)"
           );
         }
     );
@@ -45,8 +42,7 @@ class SubjectProvider {
       columns: [
         COLUMN_SUBJECT_ID,
         COLUMN_SUBJECT_KH_NB,
-        COLUMN_SUBJECT_NAME,
-        COLUMN_SUBJECT_SEMESTER
+        COLUMN_SUBJECT_NAME
       ],
     );
     List<Subject> subjectsList = List<Subject>();
@@ -66,9 +62,13 @@ class SubjectProvider {
     return subject;
   }
 
-  Future<void> deleteSubject(Subject subject) async {
+  Future<void> updateSubject(Subject subject) async {
     final db = await database;
-    await db.delete(TABLE_SUBJECT_NAME, where: '$COLUMN_SUBJECT_ID = ?', whereArgs: [subject.id]);
+    await db.update(
+        TABLE_SUBJECT_NAME,
+        subject.toMap(),
+        where: '$COLUMN_SUBJECT_ID = ?',
+        whereArgs: [subject.id]);
   }
 
 }

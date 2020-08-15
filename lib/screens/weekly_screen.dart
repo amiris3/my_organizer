@@ -1,6 +1,7 @@
-import 'package:OrganiZer/database/exam_provider.dart';
+import '../database/exam_provider.dart';
+import '../styling.dart';
 import 'package:flutter/material.dart';
-import 'package:OrganiZer/models/exam.dart';
+import '../models/exam.dart';
 
 class WeeklyScreen extends StatefulWidget {
   @override
@@ -36,10 +37,10 @@ class _WeeklyScreenState extends State<WeeklyScreen>
 
   @override
   void initState() {
-    fillListTabs();
     _tabController = TabController(length: thisWeek.length, vsync: this);
     _tabController.addListener(_handleTabSelection);
     _tabController.index = 0;
+    fillListTabs();
     super.initState();
     refreshList();
   }
@@ -47,6 +48,8 @@ class _WeeklyScreenState extends State<WeeklyScreen>
   _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       setState(() {});
+      myTabs = List<Widget>();
+      fillListTabs();
       refreshList();
     }
   }
@@ -57,43 +60,32 @@ class _WeeklyScreenState extends State<WeeklyScreen>
       children: [
         Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(226, 212, 250, 1),
-              Color.fromRGBO(144, 202, 226, 1),
-            ],
-          )),
+              gradient: mainGradient
+          ),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           alignment: Alignment.topCenter,
           height: MediaQuery.of(context).size.height,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Icon(Icons.calendar_today, color: Colors.deepPurple[600]),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                        text: "Your schedule for today",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple[600],
-                          fontSize: 22,
-                        ),
+              SizedBox(height: 45,),
+              RichText(
+                text: TextSpan(
+                    text: "Your schedule for this week",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                      fontSize: 22,
                     ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
         ),
         Positioned(
-          top: 120,
+          top: 130,
           child: Container(
-            height: MediaQuery.of(context).size.height - 210,
+            height: MediaQuery.of(context).size.height - 220,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -102,30 +94,19 @@ class _WeeklyScreenState extends State<WeeklyScreen>
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 15, bottom: 30),
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  margin: EdgeInsets.all(8),
                   child: TabBar(
+                    indicatorColor: Colors.transparent,
                     controller: _tabController,
-                    indicator: BoxDecoration(
-                        color: Colors.deepPurple[100],
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(15),
-                    ),
                     tabs: myTabs,
+                    indicatorSize: TabBarIndicatorSize.label,
                   ),
                 ),
                 Expanded(
                   child: Center(
                     child: loading ? CircularProgressIndicator() :
-                    [
-                      buildExamsList(0),
-                      buildExamsList(1),
-                      buildExamsList(2),
-                      buildExamsList(3),
-                      buildExamsList(4),
-                      buildExamsList(5),
-                      buildExamsList(6)
-                    ][_tabController.index],
+                    [for (int i=0;i<7;i++) _buildExamsList(i),]
+                    [_tabController.index],
                   ),
                 )
               ],
@@ -136,7 +117,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
     );
   }
 
-  ListView buildExamsList(int page) {
+  ListView _buildExamsList(int page) {
     return ListView.builder(
         itemCount: allExams.where((element) =>
         (element.date.day == thisWeek[page].day)
@@ -146,12 +127,12 @@ class _WeeklyScreenState extends State<WeeklyScreen>
           allExams.removeWhere((element)  => element.date.day != thisWeek[page].day);
           allExams.removeWhere((element) => element.date.month != thisWeek[page].month);
           final Exam exam = allExams[index];
-          return buildExam(exam);
+          return _buildExam(exam);
         }
     );
   }
 
-  Container buildExam(Exam exam) {
+  Container _buildExam(Exam exam) {
     return Container(
       margin: EdgeInsets.only(bottom: 25),
       child: Column(
@@ -162,10 +143,11 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                 width: 15,
                 height: 15,
                 decoration: BoxDecoration(
-                    color: Colors.deepPurple[600],
+                    color: primaryColor,
                     borderRadius: BorderRadius.horizontal(
                       right: Radius.circular(5),
-                    )),
+                    )
+                ),
               ),
               SizedBox(
                 width: 15,
@@ -194,8 +176,9 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                           ]),
                     ),
                     Text(
-                      (exam.durationInMinutes ~/ 60).toString() +
-                          " h " +
+                      (exam.durationInMinutes ~/ 60).toString() == "0" ?
+                      exam.durationInMinutes.toString() + " min" :
+                      (exam.durationInMinutes ~/ 60).toString() + " h " +
                           (exam.durationInMinutes % 60 != 0
                               ? (exam.durationInMinutes % 60).toString()
                               : ""),
@@ -225,7 +208,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                     await ExamProvider.dbExams.updateExam(exam);
                     refreshList();
                   },
-                  activeColor: Color.fromRGBO(144, 202, 226, 1),
+                  activeColor: checkBoxColor,
                 ),
               ),
               Container(
@@ -244,7 +227,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                       children: [
                         CircleAvatar(
                           radius: 20,
-                          backgroundColor: Colors.deepPurple,
+                          backgroundColor: primaryColor,
                           child: Text(
                             exam.isKholle ? "K" : "DS",
                             style: TextStyle(
@@ -290,6 +273,55 @@ class _WeeklyScreenState extends State<WeeklyScreen>
       ),
     );
   }
+
+  Widget buildDateColumn(DateTime dateTime, int index) {
+    return Container(
+      height: 60,
+      child: Column(
+        children: [
+          Container(
+            alignment: Alignment.center,
+              padding: EdgeInsets.only(
+                  top: 4,
+              bottom: 3,),
+            decoration: BoxDecoration(
+              color: _tabController.index == index ? barColor : Colors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30),
+              ),
+            ),
+            child: Text(
+                getShortWeekDay(dateTime.weekday),
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black,
+                  fontSize: 13,
+                )),
+          ),
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(
+               top: 5,
+                bottom: 3),
+            decoration: BoxDecoration(
+              color: _tabController.index == index ?
+              barColor : Colors.white,
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(30),
+              ),
+            ),
+            child: Text(
+              dateTime.day.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 String getShortWeekDay(int weekday) {
@@ -297,38 +329,7 @@ String getShortWeekDay(int weekday) {
   return weekdays[weekday - 1];
 }
 List<DateTime> thisWeek = [
-  DateTime.now(),
-  DateTime.now().add(Duration(days: 1)),
-  DateTime.now().add(Duration(days: 2)),
-  DateTime.now().add(Duration(days: 3)),
-  DateTime.now().add(Duration(days: 4)),
-  DateTime.now().add(Duration(days: 5)),
-  DateTime.now().add(Duration(days: 6))
+  for (int i = 0; i<7;i++)   DateTime.now().add(Duration(days: i)),
 ];
 
-Widget buildDateColumn(DateTime dateTime, int index) {
-  return Column(
-    children: [
-      SizedBox(
-        height: 5,
-      ),
-     Text(
-          getShortWeekDay(dateTime.weekday),
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontSize: 13,
-          )),
-      SizedBox(
-        height: 9,
-      ),
-      Text(
-        dateTime.day.toString(),
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-      ),
-    ],
-  );
-}
+

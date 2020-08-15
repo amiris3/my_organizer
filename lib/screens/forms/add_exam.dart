@@ -1,6 +1,8 @@
-import 'package:OrganiZer/database/exam_provider.dart';
+import '../../widgets/basic_form.dart';
+import '../../database/exam_provider.dart';
+import '../../styling.dart';
 import 'package:flutter/material.dart';
-import 'package:OrganiZer/models/exam.dart';
+import '../../models/exam.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class AddExam extends StatefulWidget {
@@ -15,11 +17,12 @@ class _AddExamState extends State<AddExam> {
 
   final _formKey = GlobalKey<FormState>();
   final _exam = Exam();
+  DateTime timeOfDay = DateTime.now();
+  DateTime chosenDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    DateTime timeOfDay = DateTime.now();
-    DateTime chosenDate = DateTime.now();
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.deepPurple[900],
@@ -27,136 +30,129 @@ class _AddExamState extends State<AddExam> {
           title: Text('Add an exam',
             style: TextStyle(
                 fontSize: 23,
-            ),)),
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromRGBO(226, 212, 250, 1),
-                      Color.fromRGBO(144, 202, 226, 1),
-                    ],
-                  ),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Builder(
-                builder: (context) => Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        TextFormField(
-                          decoration:
-                          InputDecoration(labelText: 'Exam name'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your first name';
-                            }
-                          },
-                          onSaved: (val) =>
-                              setState(() => _exam.examName = val),
-                        ),
-                        DropdownButtonFormField(
-                          hint: Text('Select a subject'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter the subject';
-                            }
-                          },
-                          items: widget.subjectNames.map((String subjectName) {
-                            return DropdownMenuItem<String>(
-                              value: subjectName,
-                              child: Text(subjectName),
-                            );
-                          }).toList(),
-                          onChanged: (String newValue) {},
-                            onSaved: (subjectName) => setState(()=> _exam.subjectName = subjectName),
-                            ),
-                            TextFormField(
-                            decoration:
-                            InputDecoration(labelText: 'Duration in minutes'),
-                            validator: (value) {
-                              var potentialNb = int.tryParse(value);
-                              if (potentialNb == null) {
-                              return 'Please enter the duration in minutes';
-                              }
-                            },
-                            onSaved: (val) =>
-                            setState(() => _exam.durationInMinutes = int.parse(val)),
-                        ),
-                        InputDatePickerFormField(
-                          fieldLabelText: 'Date',
-                          onDateSaved: (date) =>
-                              setState(() => chosenDate = date),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(Duration(days: 365)),
-                        ),
-                        SizedBox(height: 30,),
-                        TimePickerSpinner(
-                          is24HourMode: false,
-                          normalTextStyle: TextStyle(
-                              fontSize: 24,
-                              color: Colors.blue[900],
-                          ),
-                          highlightedTextStyle: TextStyle(
-                              fontSize: 24,
-                              color: Colors.deepPurple[900]
-                          ),
-                          spacing: 20,
-                          itemHeight: 30,
-                          isForce2Digits: true,
-                          onTimeChange: (time) {
-                            setState(() {
-                              timeOfDay = time;
-                            });
-                          },
-                        ),
-                        Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16, horizontal: 16),
-                            child: RaisedButton(
-                              color: Colors.deepPurple[900],
-                              onPressed: () async {
-                                  final form = _formKey.currentState;
-                                  if (form.validate()) {
-                                    form.save();
-                                    print(_exam.examName);
-                                    _exam.date = DateTime(chosenDate.year,
-                                        chosenDate.month, chosenDate.day,
-                                        timeOfDay.hour, timeOfDay.minute);
-                                    _exam.grade = 0.0;
-                                    _exam.isFromUni = true;
-                                    _exam.isDone = false;
-                                    _exam.isKholle = false;
-                                    _exam.notes = "";
-                                    await ExamProvider.dbExams.insertExam(_exam).then((value) {
-                                      Navigator.pop(context);
-                                    });
-                                  }
-                                  else {
-                                    print('form did not validate');
-                                  }
-                                },
-                                child: Text(
-                                  'Save'.toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white
-                                  ),
-                                ),
-                            ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ),
+          )
+      ),
+      body: BasicForm(
+        widgets: getWidgets(),
+        formKey: _formKey,
+        button: getButton(),
+      )
+    );
+  }
+
+  List<Widget> getWidgets() {
+    return [
+      TextFormField(
+        decoration:
+        InputDecoration(labelText: 'Exam name'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter the exam\'s name';
+          }
+        },
+        onSaved: (val) =>
+            setState(() => _exam.examName = val),
+      ),
+      DropdownButtonFormField(
+        value: widget.subjectNames[0],
+        decoration:
+        InputDecoration(labelText: 'Subject'),
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please choose a subject';
+          }
+        },
+        items: widget.subjectNames.map((String subjectName) {
+          return DropdownMenuItem<String>(
+            value: subjectName,
+            child: Text(subjectName),
+          );
+        }).toList(),
+        onChanged: (String newValue) {},
+        onSaved: (subjectName) => setState(()=> _exam.subjectName = subjectName),
+      ),
+      TextFormField(
+        decoration:
+        InputDecoration(labelText: 'Duration in minutes'),
+        validator: (value) {
+          var potentialNb = int.tryParse(value);
+          if (potentialNb == null) {
+            return 'Please enter the duration in minutes';
+          }
+        },
+        onSaved: (val) =>
+            setState(() => _exam.durationInMinutes = int.parse(val)),
+      ),
+      InputDatePickerFormField(
+        fieldLabelText: 'Date',
+        onDateSaved: (date) =>
+            setState(() => chosenDate = date),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 365)),
+      ),
+      Row(
+        children: [
+          Text('Time:',
+          style: TextStyle(
+            color: primaryColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),),
+          TimePickerSpinner(
+            is24HourMode: false,
+            normalTextStyle: TextStyle(
+              fontSize: 20,
+              color: Colors.grey,
+            ),
+            highlightedTextStyle: TextStyle(
+                fontSize: 20,
+                color: primaryColor
+            ),
+            spacing: 20,
+            itemHeight: 25,
+            isForce2Digits: true,
+            onTimeChange: (time) {
+              setState(() {
+                timeOfDay = time;
+              });
+            },
           ),
         ],
+      ),
+    ];
+  }
+
+  RaisedButton getButton() {
+    return RaisedButton(
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+      color: primaryColor,
+      onPressed: () async {
+        final form = _formKey.currentState;
+        if (form.validate()) {
+          form.save();
+          _exam.date = DateTime(chosenDate.year,
+              chosenDate.month, chosenDate.day,
+              timeOfDay.hour, timeOfDay.minute);
+          _exam.grade = 0.0;
+          _exam.isFromUni = true;
+          _exam.isDone = false;
+          _exam.isKholle = false;
+          _exam.notes = "";
+          await ExamProvider.dbExams.insertExam(_exam).then((value) {
+            Navigator.pop(context);
+          });
+        }
+        else {
+          print('form did not validate');
+        }
+      },
+      child: Text(
+        'save'.toUpperCase(),
+        style: TextStyle(
+            fontSize: 20,
+            color: Colors.white
+        ),
       ),
     );
   }
