@@ -16,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen>{
   Future<void> refreshList() async {
     allExams = await ExamProvider.dbExams.getAllExams();
     allExams.removeWhere((element) => element.date.isBefore(DateTime.now()));
+    allExams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
     if (allExams.length >= 3) allExams.removeRange(3, allExams.length);
     setState(() {
       loading = false;
@@ -130,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen>{
             ),
             child: ListView(
               children: [
-                buildTitleRow("TODAY'S CLASSES ", 2),
+                buildTitleRow("NEXT TWO CLASSES"),
                 SizedBox(
                   height: 24,
                 ),
@@ -139,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen>{
                 SizedBox(
                   height: 45,
                 ),
-                buildTitleRow("THIS WEEK'S EXAMS ", allExams.length),
+                buildTitleRow("NEXT THREE EXAMS"),
                 SizedBox(
                   height: 24,
                 ),
@@ -147,10 +148,8 @@ class _HomeScreenState extends State<HomeScreen>{
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      buildExamItem(allExams[0]),
-                      buildExamItem(allExams[1]),
-                      buildExamItem(allExams[2]),
-
+                      for (int i = 0;i<3;i++)
+                        buildExamItem(allExams[i]),
                     ],
                   ),
                 ),
@@ -230,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen>{
     );
   }
 
-  Row buildTitleRow(String title, int number) {
+  Row buildTitleRow(String title) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,15 +241,7 @@ class _HomeScreenState extends State<HomeScreen>{
                   fontSize: 12,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                  text: "($number)",
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.normal),
-                ),
-              ]),
+          ),
         ),
       ],
     );

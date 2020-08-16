@@ -6,8 +6,8 @@ import '../../models/exam.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class AddExam extends StatefulWidget {
-  final List<String> subjectNames;
-  AddExam({this.subjectNames});
+  final String subjectName;
+  AddExam({this.subjectName});
 
   @override
   _AddExamState createState() => _AddExamState();
@@ -22,12 +22,11 @@ class _AddExamState extends State<AddExam> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.deepPurple[900],
+          backgroundColor: primaryColor,
           centerTitle: true,
-          title: Text('Add an exam',
+          title: Text('Add an exam for ' + widget.subjectName,
             style: TextStyle(
                 fontSize: 23,
             ),
@@ -54,29 +53,12 @@ class _AddExamState extends State<AddExam> {
         onSaved: (val) =>
             setState(() => _exam.examName = val),
       ),
-      DropdownButtonFormField(
-        value: widget.subjectNames[0],
-        decoration:
-        InputDecoration(labelText: 'Subject'),
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please choose a subject';
-          }
-        },
-        items: widget.subjectNames.map((String subjectName) {
-          return DropdownMenuItem<String>(
-            value: subjectName,
-            child: Text(subjectName),
-          );
-        }).toList(),
-        onChanged: (String newValue) {},
-        onSaved: (subjectName) => setState(()=> _exam.subjectName = subjectName),
-      ),
       TextFormField(
         decoration:
         InputDecoration(labelText: 'Duration in minutes'),
         validator: (value) {
           var potentialNb = int.tryParse(value);
+          print('parsed the nb');
           if (potentialNb == null) {
             return 'Please enter the duration in minutes';
           }
@@ -131,10 +113,11 @@ class _AddExamState extends State<AddExam> {
         final form = _formKey.currentState;
         if (form.validate()) {
           form.save();
+          _exam.subjectName = widget.subjectName;
           _exam.date = DateTime(chosenDate.year,
               chosenDate.month, chosenDate.day,
               timeOfDay.hour, timeOfDay.minute);
-          _exam.grade = 0.0;
+          _exam.grade = -1;
           _exam.isFromUni = true;
           _exam.isDone = false;
           _exam.isKholle = false;
@@ -157,3 +140,23 @@ class _AddExamState extends State<AddExam> {
     );
   }
 }
+
+/*
+DropdownButtonFormField(
+value: widget.subjectNames[0],
+decoration:
+InputDecoration(labelText: 'Subject'),
+validator: (value) {
+if (value.isEmpty) {
+return 'Please choose a subject';
+}
+},
+items: widget.subjectNames.map((String subjectName) {
+return DropdownMenuItem<String>(
+value: subjectName,
+child: Text(subjectName),
+);
+}).toList(),
+onChanged: (String newValue) {},
+onSaved: (subjectName) => setState(()=> _exam.subjectName = subjectName),
+),*/

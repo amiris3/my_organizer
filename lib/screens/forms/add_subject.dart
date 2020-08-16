@@ -71,7 +71,6 @@ class _AddSubjectState extends State {
         final form = _formKey.currentState;
         if (form.validate()) {
           form.save();
-          print(_subject.name);
           await SubjectProvider.dbSubjects.insertSubject(_subject).then((value) {
             Navigator.pop(context);
           });

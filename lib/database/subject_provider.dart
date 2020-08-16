@@ -71,4 +71,12 @@ class SubjectProvider {
         whereArgs: [subject.id]);
   }
 
+  Future<void> deleteSubject(Subject subject) async {
+    final db = await database;
+    await db.delete(
+        TABLE_SUBJECT_NAME,
+        where: '$COLUMN_SUBJECT_ID = ?',
+        whereArgs: [subject.id]);
+  }
+
 }

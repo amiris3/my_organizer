@@ -32,7 +32,8 @@ set of oral exams for each subject) and handle college exams.
 |[**percent_indicator**](https://pub.dev/packages/percent_indicator)| visualisation of a subject's exams completion rate |
 |[**flutter_time_picker_spinner**](https://pub.dev/packages/flutter_time_picker_spinner)| used to pick the time of an exam |
 |[**shared_preferences**](https://pub.dev/packages/shared_preferences)| stores if the user has already opened the app |
-[**after_layout**](https://pub.dev/packages/after_layout)| checks for above preference and shows the corresponding screen after the first layout of the app has been shown |
+|[**after_layout**](https://pub.dev/packages/after_layout)| checks for above preference and shows the corresponding screen after the first layout of the app has been shown |
+|[**simple_speed_dial**](https://pub.dev/packages/simple_speed_dial)| fab menu to add a subject or a khôlloscope |
 
 ## Code organization
 - Database: contains the database providers for Exam and Subject

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'weekly_screen.dart';
 import 'all_subjects_screen.dart';
-import 'add_stuff_screen.dart';
 
 class ScreenStart extends StatefulWidget {
   @override
@@ -16,11 +15,10 @@ class _ScreenStartState extends State<ScreenStart> {
     HomeScreen(),
     WeeklyScreen(),
     AllSubjectsScreen(),
-    AddStuffScreen()
   ];
 
   List<IconData> icons = [
-    Icons.home, Icons.today, Icons.assessment, Icons.add_circle_outline
+    Icons.home, Icons.today, Icons.assessment
   ];
 
   @override
