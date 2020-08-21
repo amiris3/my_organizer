@@ -119,9 +119,7 @@ class _AddExamState extends State<AddExam> {
               timeOfDay.hour, timeOfDay.minute);
           _exam.grade = -1;
           _exam.isFromUni = true;
-          _exam.isDone = false;
           _exam.isKholle = false;
-          _exam.notes = "";
           await ExamProvider.dbExams.insertExam(_exam).then((value) {
             Navigator.pop(context);
           });

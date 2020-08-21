@@ -1,5 +1,4 @@
-import 'package:OrganiZer/database/exam_provider.dart';
-
+import '../database/exam_provider.dart';
 import '../database/subject_provider.dart';
 import '../models/subject.dart';
 import '../models/exam.dart';
@@ -24,6 +23,10 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
       {'title': 'add an exam'},
       {'title': 'edit this subject'},
       {'title': 'delete this subject'},
+    ];
+    List<Map> choicesExam = [
+      {'title': 'edit this exam'},
+      {'title': 'delete this exam'},
     ];
     return Scaffold(
         appBar: AppBar(
@@ -74,44 +77,42 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)
-                        ),
+                            borderRadius: BorderRadius.circular(20)),
                         child: Card(
-                          margin: EdgeInsets.symmetric(horizontal: 24.0,
-                          vertical: 8.0),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 8.0),
                           elevation: 0,
                           child: CircularPercentIndicator(
                             footer: new Text(
                               "completed",
-                              style:
-                                  new TextStyle(fontSize: 15.0, color: Colors.grey),
+                              style: new TextStyle(
+                                  fontSize: 15.0, color: Colors.grey),
                             ),
                             radius: 80,
                             lineWidth: 13.0,
                             animation: true,
                             percent: getCompletionRate() / 100,
                             center: new Text(
-                              getCompletionRate()
-                                      .toString()
-                                      .replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "") +
+                              getCompletionRate().toString().replaceAll(
+                                      RegExp(r"([.]*0)(?!.*\d)"), "") +
                                   '%',
                               style: new TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20.0),
                             ),
                             circularStrokeCap: CircularStrokeCap.round,
                             progressColor: Colors.blue[900],
-                            backgroundColor: Color.fromRGBO(144, 202, 226, 0.25),
+                            backgroundColor:
+                                Color.fromRGBO(144, 202, 226, 0.25),
                           ),
                         ),
                       ),
                       Container(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)
-                        ),
+                            borderRadius: BorderRadius.circular(20)),
                         child: Card(
-                          margin: const EdgeInsets.symmetric(horizontal: 16.0,
-                            vertical: 5.0),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 5.0),
                           elevation: 0,
                           color: Colors.white,
                           child: Column(
@@ -119,7 +120,8 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                             children: [
                               Text(
                                 'current average',
-                                style: TextStyle(fontSize: 15, color: Colors.grey),
+                                style:
+                                    TextStyle(fontSize: 15, color: Colors.grey),
                               ),
                               SizedBox(height: 15),
                               Text(
@@ -144,8 +146,8 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 8,
-                  vertical: 24),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
                   padding: const EdgeInsets.all(8),
                   height: 455,
                   child: widget.allExams.length == 0
@@ -160,7 +162,10 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               margin: EdgeInsets.only(
-                                  top: 5.0, bottom: 8.0, left: 10.0, right: 10.0),
+                                  top: 5.0,
+                                  bottom: 8.0,
+                                  left: 10.0,
+                                  right: 10.0),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20.0, vertical: 10.0),
                               decoration: BoxDecoration(
@@ -170,65 +175,30 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                                     BorderRadius.all(Radius.circular(20.0)),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Column(
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (_) => AlertDialog(
-                                                title: Text('Edit the grade'),
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    TextFormField(
-                                                      initialValue: widget.allExams[index].grade.toString(),
-                                                      decoration:
-                                                      InputDecoration(labelText: 'Grade'),
-                                                      validator: (value) {
-                                                        var potentialNb = double.tryParse(value);
-                                                        if (potentialNb == null) {
-                                                          return 'Please enter the grade';
-                                                        }},
-                                                      onChanged: (value) =>
-                                                      widget.allExams[index].grade = double.parse(value),
-                                                    ),
-                                                  ],
-                                                ),
-                                                actions: [
-                                                  FlatButton(
-                                                    child: Text('SAVE'),
-                                                    onPressed: () async {
-                                                      await ExamProvider.dbExams
-                                                          .updateExam(this.widget.allExams[index]);
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                              barrierDismissible: true);
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 23,
-                                          backgroundColor: Colors.deepPurple[900],
-                                          child: Text(
-                                            widget.allExams[index].grade == -1
-                                                ? '?'
-                                                : widget.allExams[index].grade
-                                                    .toString(),
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 17,
-                                            ),
+                                      CircleAvatar(
+                                        radius: 23,
+                                        backgroundColor: Colors.deepPurple[900],
+                                        child: Text(
+                                          widget.allExams[index].grade == -1
+                                              ? '?'
+                                              : widget.allExams[index].grade
+                                                  .toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 17,
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -247,17 +217,20 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        widget.allExams[index].date.day
-                                                .toString() +
-                                            '/' +
-                                            widget.allExams[index].date.month
-                                                .toString(),
-                                        style: TextStyle(
-                                          color: Colors.deepPurple[900],
-                                          fontSize: 15.0,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                      PopupMenuButton<Map>(
+                                        offset: Offset(0, 45),
+                                        icon: Icon(Icons.expand_more),
+                                        onSelected: (Map map) {
+                                          _callActionExam(map,
+                                              widget.allExams[index]);
+                                        },
+                                        itemBuilder: (context) => [
+                                          for (Map map in choicesExam)
+                                            PopupMenuItem(
+                                              value: map,
+                                              child: Text(map['title']),
+                                            ),
+                                        ],
                                       ),
                                     ],
                                   )
@@ -279,11 +252,14 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     }
     double finalGrade = 0;
     for (Exam exam in widget.allExams) {
-      if (exam.isDone) finalGrade += exam.grade;
+      if (exam.date.isBefore(DateTime.now()) && (exam.grade >= 0.0)) finalGrade += exam.grade;
     }
     if (finalGrade == 0) return -1;
-    finalGrade = finalGrade /
-        widget.allExams.where((element) => element.isDone).length;
+    finalGrade =
+        finalGrade / widget.allExams.where(
+                (element) => element.date.isBefore(DateTime.now())
+                    && (element.grade >= 0.0))
+            .length;
     return finalGrade.toStringAsFixed(2);
   }
 
@@ -291,7 +267,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     double completionRate = 0;
     if (widget.allExams.length != 0) {
       for (Exam exam in widget.allExams) {
-        if (exam.isDone) completionRate++;
+        if (exam.date.isBefore(DateTime.now())) completionRate++;
       }
       completionRate = completionRate / widget.allExams.length;
       completionRate *= 100;
@@ -331,14 +307,15 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                       TextFormField(
                         initialValue: widget.subject.khNb.toString(),
                         decoration:
-                        InputDecoration(labelText: 'Khôlles number'),
+                            InputDecoration(labelText: 'Khôlles number'),
                         validator: (value) {
                           var potentialNb = int.tryParse(value);
                           if (potentialNb == null) {
                             return 'Please enter the khôlles number';
-                          }},
+                          }
+                        },
                         onChanged: (value) =>
-                        widget.subject.khNb = int.parse(value),
+                            widget.subject.khNb = int.parse(value),
                       ),
                     ],
                   ),
@@ -364,6 +341,65 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
               widget.subject.name + ' has been successfully deleted',)
         ));*/
         Navigator.pop(context);
+        break;
+    }
+  }
+
+  Future<void> _callActionExam(Map map, Exam exam) async {
+    switch (map['title']) {
+      case 'edit this exam':
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text('Edit this exam'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    initialValue: exam.examName,
+                    decoration: InputDecoration(labelText: 'Exam name'),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter the exam\'s name';
+                      }
+                    },
+                    onChanged: (value) => exam.examName = value,
+                  ),
+                  TextFormField(
+                    initialValue: exam.grade.toString(),
+                    decoration:
+                    InputDecoration(labelText: 'grade'),
+                    validator: (value) {
+                      var potentialNb = double.tryParse(value);
+                      if (potentialNb == null) {
+                        return 'Please enter the grade';
+                      }
+                    },
+                    onChanged: (value) =>
+                    exam.grade = double.parse(value),
+                  ),
+                ],
+              ),
+              actions: [
+                FlatButton(
+                  child: Text('SAVE'),
+                  onPressed: () async {
+                    await ExamProvider.dbExams
+                        .updateExam(exam);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+            barrierDismissible: true);
+        break;
+      case 'delete this exam':
+        await ExamProvider.dbExams.deleteExam(exam);
+        Scaffold.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+              exam.examName + ' has been successfully deleted',)
+        ));
         break;
     }
   }

@@ -12,9 +12,7 @@ class ExamProvider {
   static const String COLUMN_EXAM_IS_KHOLLE = 'isKholle';
   static const String COLUMN_EXAM_IS_FROM_UNI = 'isFromUni';
   static const String COLUMN_EXAM_DURATION = 'durationInMinutes';
-  static const String COLUMN_EXAM_IS_DONE = 'isDone';
   static const String COLUMN_EXAM_GRADE = 'grade';
-  static const String COLUMN_EXAM_NOTES = 'notes';
 
 
   ExamProvider._();
@@ -43,9 +41,7 @@ class ExamProvider {
                   "$COLUMN_EXAM_IS_KHOLLE INTEGER,"
                   "$COLUMN_EXAM_IS_FROM_UNI INTEGER,"
                   "$COLUMN_EXAM_DURATION INTEGER,"
-                  "$COLUMN_EXAM_IS_DONE INTEGER,"
-                  "$COLUMN_EXAM_GRADE FLOAT,"
-                  "$COLUMN_EXAM_NOTES TEXT)"
+                  "$COLUMN_EXAM_GRADE FLOAT)"
           );
         }
     );
@@ -63,9 +59,7 @@ class ExamProvider {
         COLUMN_EXAM_IS_KHOLLE,
         COLUMN_EXAM_IS_FROM_UNI,
         COLUMN_EXAM_DURATION,
-        COLUMN_EXAM_IS_DONE,
-        COLUMN_EXAM_GRADE,
-        COLUMN_EXAM_NOTES
+        COLUMN_EXAM_GRADE
       ],
     );
     List<Exam> examsList = List<Exam>();
@@ -89,6 +83,14 @@ class ExamProvider {
     await db.update(
         TABLE_EXAM_NAME,
         exam.toMap(),
+        where: '$COLUMN_EXAM_ID = ?',
+        whereArgs: [exam.examId]);
+  }
+
+  Future<void> deleteExam(Exam exam) async {
+    final db = await database;
+    await db.delete(
+        TABLE_EXAM_NAME,
         where: '$COLUMN_EXAM_ID = ?',
         whereArgs: [exam.examId]);
   }

@@ -8,9 +8,7 @@ class Exam {
   bool isKholle;
   bool isFromUni;
   int durationInMinutes;
-  bool isDone = false;
   double grade;
-  String notes = "";
 
   Exam({this.examId, this.subjectName, this.examName, this.date, this.grade, this.isKholle, this.isFromUni,
     this.durationInMinutes});
@@ -24,9 +22,7 @@ class Exam {
       'isKholle': isKholle ? 1 : 0,
       'isFromUni': isFromUni ? 1 : 0,
       'durationInMinutes': durationInMinutes,
-      'isDone': isDone ? 1 : 0,
       'grade': grade,
-      'notes': notes
     };
   }
 
@@ -38,9 +34,7 @@ class Exam {
     isKholle = map['isKholle'] == 1 ? true : false;
     isFromUni = map['isFromUni'] == 1 ? true : false;
     durationInMinutes = map['durationInMinutes'];
-    isDone = map['isDone'] == 1 ? true : false;
     grade = map['grade'];
-    notes = map['notes'];
   }
 
 }

@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>{
+class _HomeScreenState extends State<HomeScreen> {
   List<Exam> allExams = List<Exam>();
   bool loading = true;
 
@@ -34,8 +34,7 @@ class _HomeScreenState extends State<HomeScreen>{
     return Stack(
       children: [
         Container(
-          decoration: BoxDecoration(
-              gradient: mainGradient),
+          decoration: BoxDecoration(gradient: mainGradient),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
           child: Column(
             children: [
@@ -45,18 +44,18 @@ class _HomeScreenState extends State<HomeScreen>{
                   text: TextSpan(
                       text: _getWeekDayFromInt(DateTime.now().weekday) + " ",
                       style: TextStyle(
-                          color: Colors.deepPurple[800],
+                          color: primaryColor,
                           fontSize: 16,
-                          fontWeight: FontWeight.w700),
+                          fontWeight: FontWeight.w400),
                       children: [
                         TextSpan(
-                          text:
-                          DateTime.now().day.toString() + ", " +
+                          text: DateTime.now().day.toString() +
+                              ", " +
                               _getMonthFromInt(DateTime.now().month),
                           style: TextStyle(
-                              color: Colors.deepPurple[800],
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                            color: primaryColor,
+                            fontSize: 16,
+                          ),
                         )
                       ]),
                 ),
@@ -98,17 +97,17 @@ class _HomeScreenState extends State<HomeScreen>{
                         style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w500,
-                          color: Color(0XFF343E87),
+                          color: primaryColor,
                         ),
                       ),
                       SizedBox(
                         height: 10,
                       ),
                       Text(
-                        "here is your schedule for today:",
+                        "here is your upcoming schedule:",
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.blueGrey,
+                          color: primaryColor,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -144,15 +143,17 @@ class _HomeScreenState extends State<HomeScreen>{
                 SizedBox(
                   height: 24,
                 ),
-                loading ? CircularProgressIndicator() : SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      for (int i = 0;i<3;i++)
-                        buildExamItem(allExams[i]),
-                    ],
-                  ),
-                ),
+                loading
+                    ? CircularProgressIndicator()
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            for (int i = 0; i < 3; i++)
+                              buildExamItem(allExams[i]),
+                          ],
+                        ),
+                      ),
               ],
             ),
           ),
@@ -170,15 +171,20 @@ class _HomeScreenState extends State<HomeScreen>{
       width: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(width: 1, color: numDays <= 3 ?
-        Colors.red.withOpacity(0.3) : Colors.green.withOpacity(0.3)),
+        border: Border.all(
+            width: 1,
+            color: numDays <= 3
+                ? Colors.red.withOpacity(0.3)
+                : Colors.green.withOpacity(0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Coming up",
-            style: TextStyle(fontSize: 10, color: Colors.grey),
+            style: TextStyle(
+                fontSize: 13,
+                color: Colors.grey),
           ),
           SizedBox(
             height: 7,
@@ -186,10 +192,11 @@ class _HomeScreenState extends State<HomeScreen>{
           Row(
             children: [
               Container(
-                height: 6,
-                width: 6,
+                height: 7,
+                width: 7,
                 decoration: BoxDecoration(
-                  color: numDays <= 3 ? Colors.red.withOpacity(0.3)
+                  color: numDays <= 3
+                      ? Colors.red.withOpacity(0.3)
                       : Colors.green.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(3),
                 ),
@@ -198,29 +205,30 @@ class _HomeScreenState extends State<HomeScreen>{
                 width: 5,
               ),
               Text(
-                "$numDays days left",
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                numDays == 0 ? 'today' : "$numDays days left",
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),
           SizedBox(
-            height: 15,
+            height: 12,
           ),
           Container(
             width: 100,
             child: Text(
               exam.subjectName,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 16),
             ),
           ),
           SizedBox(
-            height: 15,
+            height: 16,
           ),
           Container(
             width: 100,
             child: Text(
-              exam.isKholle ? "Khôlle  n° " + exam.examId.toString()
-                  : "DS  n° " + exam.examId.toString(),
+              exam.examName,
               style: TextStyle(fontSize: 13, color: Colors.grey),
             ),
           ),
@@ -236,11 +244,9 @@ class _HomeScreenState extends State<HomeScreen>{
       children: [
         RichText(
           text: TextSpan(
-              text: title,
-              style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold),
+            text: title,
+            style: TextStyle(
+                fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
       ],
@@ -263,21 +269,22 @@ class _HomeScreenState extends State<HomeScreen>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                (lesson.dateTime.hour%12).toString() + " h " +
+                (lesson.dateTime.hour % 12).toString() +
+                    " h " +
                     lesson.dateTime.minute.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
                 lesson.dateTime.hour <= 12 ? "AM" : "PM",
                 style:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
               ),
             ],
           ),
           Container(
             height: 100,
             width: 1,
-            color: Colors.deepPurple,
+            color: primaryColor,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -342,12 +349,32 @@ class _HomeScreenState extends State<HomeScreen>{
 }
 
 String _getMonthFromInt(int month) {
-  List<String> months = ["January", "February", "March", "April", "May",
-    "June", "July", "August", "September", "October", "November", "December"];
-  return months[month-1];
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+  return months[month - 1];
 }
 
 String _getWeekDayFromInt(int weekday) {
-  List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  return days[weekday-1];
+  List<String> days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+  return days[weekday - 1];
 }
