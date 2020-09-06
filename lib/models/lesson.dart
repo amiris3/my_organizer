@@ -1,26 +1,31 @@
 
 class Lesson {
 
-  final String subjectName;
-  final String teacher;
-  final DateTime dateTime;
-  final String location;
+  int lessonId;
+  String subjectName;
+  String teacher;
+  DateTime date;
+  String location;
 
-  Lesson({this.subjectName, this.teacher, this.dateTime, this.location});
+  Lesson({this.lessonId, this.subjectName, this.teacher, this.date,
+    this.location});
+
+  toMap() {
+    return {
+      'lessonId': lessonId,
+      'subjectName': subjectName,
+      'teacher' : teacher,
+      'date': date.toIso8601String(),
+      'location': location,
+    };
+  }
+
+  Lesson.fromMap(Map<String, dynamic> map) {
+    lessonId = map['lessonId'];
+    subjectName = map['subjectName'];
+    teacher = map['teacher'];
+    date = DateTime.parse(map['date']);
+    location = map['location'];
+  }
 
 }
-
-final List<Lesson> dummyLesson = [
-  Lesson(
-    subjectName: "M&I",
-    teacher: "E. Fouassier",
-    dateTime: DateTime.now(),
-    location: "Amphi Ampère"
-  ),
-  Lesson(
-      subjectName: "LIFAP6",
-      teacher: "V. Nivoliers",
-      dateTime: DateTime.now().add(Duration(hours: 2)),
-      location: "Amphi Jussieu"
-  ),
-];

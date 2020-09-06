@@ -1,4 +1,3 @@
-import 'dart:math';
 import '../database/exam_provider.dart';
 import 'subject.dart';
 import 'exam.dart';
@@ -77,7 +76,6 @@ class Plan {
     DateTime currentDate = DateTime(begin.year, begin.month, begin.day, 18, 00);
 
     int weeklyNb = 1;
-    var randNb = new Random();
 
     for (int i in nbKhPerWeek) {
       khNb++;
@@ -89,7 +87,7 @@ class Plan {
         list.add(Exam(
           examName: 'Khôlle n°' + khNumber.toString(),
           subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: randNb.nextInt(20).toDouble(), isKholle: true, isFromUni: false, date: currentDate));
+          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
@@ -98,7 +96,7 @@ class Plan {
         list.add(Exam(
           examName: 'Khôlle n°' + khNumber.toString(),
           subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: randNb.nextInt(20).toDouble(), isKholle: true, isFromUni: false, date: currentDate));
+          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 3));
@@ -109,7 +107,7 @@ class Plan {
         list.add(Exam(
           examName: 'Khôlle n°' + khNumber.toString(),
           subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: randNb.nextInt(20).toDouble(), isKholle: true, isFromUni: false, date: currentDate));
+          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
@@ -118,7 +116,7 @@ class Plan {
         list.add(Exam(
           examName: 'Khôlle n°' + khNumber.toString(),
           subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: randNb.nextInt(20).toDouble(), isKholle: true, isFromUni: false, date: currentDate));
+          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
@@ -127,7 +125,7 @@ class Plan {
         list.add(Exam(
           examName: 'Khôlle n°' + khNumber.toString(),
           subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: randNb.nextInt(20).toDouble(), isKholle: true, isFromUni: false, date: currentDate));
+          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
@@ -138,7 +136,7 @@ class Plan {
           examName: 'DS n° $weeklyNb',
           subjectName: listOfSubjects[weeklyNb % listOfSubjects.length].name,
           durationInMinutes: 60,
-          grade: randNb.nextInt(20).toDouble(), isKholle: false, isFromUni: false, date: currentDate));
+          grade: -1, isKholle: false, isFromUni: false, date: currentDate));
 
       weeklyNb++;
       currentDate = currentDate.add(Duration(days: 1));

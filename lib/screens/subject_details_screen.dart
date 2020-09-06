@@ -1,3 +1,5 @@
+import 'forms/add_lesson.dart';
+import 'forms/add_exam.dart';
 import '../database/exam_provider.dart';
 import '../database/subject_provider.dart';
 import '../models/subject.dart';
@@ -5,7 +7,6 @@ import '../models/exam.dart';
 import '../styling.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'forms/add_exam.dart';
 
 class SubjectDetailsScreen extends StatefulWidget {
   final Subject subject;
@@ -21,6 +22,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
   Widget build(BuildContext context) {
     List<Map> choices = [
       {'title': 'add an exam'},
+      {'title': 'add a lesson'},
       {'title': 'edit this subject'},
       {'title': 'delete this subject'},
     ];
@@ -285,6 +287,14 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                 builder: (context) => AddExam(
                       subjectName: widget.subject.name,
                     )));
+        break;
+      case 'add a lesson':
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddLesson(
+                  subjectName: widget.subject.name,
+                )));
         break;
       case 'edit this subject':
         showDialog(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../models/lesson.dart';
 import '../models/exam.dart';
 import '../database/exam_provider.dart';
+import '../database/lesson_provider.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Exam> allExams = List<Exam>();
+  List<Lesson> allLessons = List<Lesson>();
   bool loading = true;
 
   Future<void> refreshList() async {
@@ -18,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
     allExams.removeWhere((element) => element.date.isBefore(DateTime.now()));
     allExams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
     if (allExams.length >= 3) allExams.removeRange(3, allExams.length);
+    allLessons = await LessonProvider.dbLessons.getAllLessons();
+    allLessons.removeWhere((element) => element.date.isBefore(DateTime.now()));
+    allLessons.sort((lesson1, lesson2) => lesson1.date.compareTo(lesson2.date));
+    if (allLessons.length >= 2) allLessons.removeRange(2, allExams.length);
     setState(() {
       loading = false;
     });
@@ -128,14 +135,18 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),
             ),
-            child: ListView(
+            child: loading ? CircularProgressIndicator()
+            : ListView(
               children: [
                 buildTitleRow("NEXT TWO CLASSES"),
                 SizedBox(
                   height: 24,
                 ),
-                buildLessonItem(dummyLesson[0]),
-                buildLessonItem(dummyLesson[1]),
+                ((allLessons.length == 0) || (allLessons.length == null)) ?
+                    Text('There are no classes available')
+                : buildLessonItem(allLessons[0]),
+                (allLessons.length <= 1) ?
+                Text('') : buildLessonItem(allLessons[1]),
                 SizedBox(
                   height: 45,
                 ),
@@ -143,9 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 24,
                 ),
-                loading
-                    ? CircularProgressIndicator()
-                    : SingleChildScrollView(
+                SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
@@ -163,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Container buildExamItem(Exam exam) {
-    int numDays = exam.date.day - DateTime.now().day;
+    int numDays = exam.date.difference(DateTime.now()).inDays;
     return Container(
       margin: EdgeInsets.only(right: 15),
       padding: EdgeInsets.all(12),
@@ -268,14 +277,26 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                (lesson.dateTime.hour % 12).toString() +
-                    " h " +
-                    lesson.dateTime.minute.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(3.5),
+                child: Text(
+                  lesson.date.month.toString() + "/" + lesson.date.day.toString(),
+                  style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.grey,
+                  fontSize: 16),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2),
+                child: Text(
+                  (lesson.date.hour % 12).toString() +
+                      " h " +
+                      lesson.date.minute.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
               Text(
-                lesson.dateTime.hour <= 12 ? "AM" : "PM",
+                lesson.date.hour <= 12 ? "AM" : "PM",
                 style:
                     TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
               ),
