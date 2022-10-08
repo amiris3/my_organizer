@@ -4,7 +4,7 @@ import '../styling.dart';
 class BasicForm extends StatelessWidget {
   final formKey;
   final List<Widget> widgets;
-  final RaisedButton button;
+  final ElevatedButton button;
 
   BasicForm({this.widgets, this.button, this.formKey});
 

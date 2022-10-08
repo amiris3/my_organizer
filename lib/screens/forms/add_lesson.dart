@@ -14,7 +14,6 @@ class AddLesson extends StatefulWidget {
 }
 
 class _AddLessonState extends State<AddLesson> {
-
   final _formKey = GlobalKey<FormState>();
   final _lesson = Lesson();
   DateTime timeOfDay = DateTime.now();
@@ -26,69 +25,62 @@ class _AddLessonState extends State<AddLesson> {
         appBar: AppBar(
             backgroundColor: primaryColor,
             centerTitle: true,
-            title: Text('Add a lesson for ' + widget.subjectName,
+            title: Text(
+              'Add a lesson for ' + widget.subjectName,
               style: TextStyle(
                 fontSize: 23,
               ),
-            )
-        ),
+            )),
         body: BasicForm(
           widgets: getWidgets(),
           formKey: _formKey,
           button: getButton(),
-        )
-    );
+        ));
   }
 
   List<Widget> getWidgets() {
     return [
       TextFormField(
-        decoration:
-        InputDecoration(labelText: 'Teacher'),
+        decoration: InputDecoration(labelText: 'Teacher'),
         validator: (value) {
           if (value.isEmpty) {
             return 'Please enter the lesson\'s teacher';
           }
         },
-        onSaved: (val) =>
-            setState(() => _lesson.teacher = val),
+        onSaved: (val) => setState(() => _lesson.teacher = val),
       ),
       TextFormField(
-        decoration:
-        InputDecoration(labelText: 'Location'),
+        decoration: InputDecoration(labelText: 'Location'),
         validator: (value) {
           if (value.isEmpty) {
             return 'Please enter the lesson\'s location';
           }
         },
-        onSaved: (val) =>
-            setState(() => _lesson.location = val),
+        onSaved: (val) => setState(() => _lesson.location = val),
       ),
       InputDatePickerFormField(
         fieldLabelText: 'Date',
-        onDateSaved: (date) =>
-            setState(() => chosenDate = date),
+        onDateSaved: (date) => setState(() => chosenDate = date),
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 365)),
       ),
       Row(
         children: [
-          Text('Time:',
+          Text(
+            'Time:',
             style: TextStyle(
               color: primaryColor,
               fontSize: 18,
               fontWeight: FontWeight.bold,
-            ),),
+            ),
+          ),
           TimePickerSpinner(
             is24HourMode: false,
             normalTextStyle: TextStyle(
               fontSize: 20,
               color: Colors.grey,
             ),
-            highlightedTextStyle: TextStyle(
-                fontSize: 20,
-                color: primaryColor
-            ),
+            highlightedTextStyle: TextStyle(fontSize: 20, color: primaryColor),
             spacing: 20,
             itemHeight: 25,
             isForce2Digits: true,
@@ -103,32 +95,27 @@ class _AddLessonState extends State<AddLesson> {
     ];
   }
 
-  RaisedButton getButton() {
-    return RaisedButton(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-      color: primaryColor,
+  ElevatedButton getButton() {
+    return ElevatedButton(
+      //padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+      //color: primaryColor,
       onPressed: () async {
         final form = _formKey.currentState;
         if (form.validate()) {
           form.save();
           _lesson.subjectName = widget.subjectName;
-          _lesson.date = DateTime(chosenDate.year,
-              chosenDate.month, chosenDate.day,
-              timeOfDay.hour, timeOfDay.minute);
+          _lesson.date = DateTime(chosenDate.year, chosenDate.month,
+              chosenDate.day, timeOfDay.hour, timeOfDay.minute);
           await LessonProvider.dbLessons.insertLesson(_lesson).then((value) {
             Navigator.pop(context);
           });
-        }
-        else {
+        } else {
           print('form did not validate');
         }
       },
       child: Text(
         'save'.toUpperCase(),
-        style: TextStyle(
-            fontSize: 20,
-            color: Colors.white
-        ),
+        style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
   }

@@ -1,6 +1,6 @@
+import 'dart:io';
 import 'screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-
 
 void main() {
   runApp(Organizer());
@@ -12,7 +12,6 @@ class Organizer extends StatefulWidget {
 }
 
 class _OrganizerState extends State<Organizer> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,4 +20,3 @@ class _OrganizerState extends State<Organizer> {
     );
   }
 }
-

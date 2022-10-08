@@ -223,8 +223,8 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                                         offset: Offset(0, 45),
                                         icon: Icon(Icons.expand_more),
                                         onSelected: (Map map) {
-                                          _callActionExam(map,
-                                              widget.allExams[index]);
+                                          _callActionExam(
+                                              map, widget.allExams[index]);
                                         },
                                         itemBuilder: (context) => [
                                           for (Map map in choicesExam)
@@ -254,13 +254,14 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
     }
     double finalGrade = 0;
     for (Exam exam in widget.allExams) {
-      if (exam.date.isBefore(DateTime.now()) && (exam.grade >= 0.0)) finalGrade += exam.grade;
+      if (exam.date.isBefore(DateTime.now()) && (exam.grade >= 0.0))
+        finalGrade += exam.grade;
     }
     if (finalGrade == 0) return -1;
-    finalGrade =
-        finalGrade / widget.allExams.where(
-                (element) => element.date.isBefore(DateTime.now())
-                    && (element.grade >= 0.0))
+    finalGrade = finalGrade /
+        widget.allExams
+            .where((element) =>
+                element.date.isBefore(DateTime.now()) && (element.grade >= 0.0))
             .length;
     return finalGrade.toStringAsFixed(2);
   }
@@ -293,8 +294,8 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => AddLesson(
-                  subjectName: widget.subject.name,
-                )));
+                      subjectName: widget.subject.name,
+                    )));
         break;
       case 'edit this subject':
         showDialog(
@@ -330,7 +331,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                     ],
                   ),
                   actions: [
-                    FlatButton(
+                    TextButton(
                       child: Text('SAVE'),
                       onPressed: () async {
                         await SubjectProvider.dbSubjects
@@ -361,55 +362,51 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
         showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title: Text('Edit this exam'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    initialValue: exam.examName,
-                    decoration: InputDecoration(labelText: 'Exam name'),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter the exam\'s name';
-                      }
-                    },
-                    onChanged: (value) => exam.examName = value,
+                  title: Text('Edit this exam'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        initialValue: exam.examName,
+                        decoration: InputDecoration(labelText: 'Exam name'),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter the exam\'s name';
+                          }
+                        },
+                        onChanged: (value) => exam.examName = value,
+                      ),
+                      TextFormField(
+                        initialValue: exam.grade.toString(),
+                        decoration: InputDecoration(labelText: 'grade'),
+                        validator: (value) {
+                          var potentialNb = double.tryParse(value);
+                          if (potentialNb == null) {
+                            return 'Please enter the grade';
+                          }
+                        },
+                        onChanged: (value) => exam.grade = double.parse(value),
+                      ),
+                    ],
                   ),
-                  TextFormField(
-                    initialValue: exam.grade.toString(),
-                    decoration:
-                    InputDecoration(labelText: 'grade'),
-                    validator: (value) {
-                      var potentialNb = double.tryParse(value);
-                      if (potentialNb == null) {
-                        return 'Please enter the grade';
-                      }
-                    },
-                    onChanged: (value) =>
-                    exam.grade = double.parse(value),
-                  ),
-                ],
-              ),
-              actions: [
-                FlatButton(
-                  child: Text('SAVE'),
-                  onPressed: () async {
-                    await ExamProvider.dbExams
-                        .updateExam(exam);
-                    Navigator.of(context).pop();
-                  },
+                  actions: [
+                    TextButton(
+                      child: Text('SAVE'),
+                      onPressed: () async {
+                        await ExamProvider.dbExams.updateExam(exam);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
                 ),
-              ],
-            ),
             barrierDismissible: true);
         break;
       case 'delete this exam':
         await ExamProvider.dbExams.deleteExam(exam);
-        Scaffold.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-              exam.examName + ' has been successfully deleted',)
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+          exam.examName + ' has been successfully deleted',
+        )));
         break;
     }
   }

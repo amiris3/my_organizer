@@ -49,10 +49,10 @@ class _CreatePlanScreenState extends State {
         ));
   }
 
-  RaisedButton getButton() {
-    return RaisedButton(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-      color: primaryColor,
+  ElevatedButton getButton() {
+    return ElevatedButton(
+      //padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+      //color: primaryColor,
       onPressed: () async {
         final form = _formKey.currentState;
         if (form.validate()) {
@@ -68,7 +68,7 @@ class _CreatePlanScreenState extends State {
                 MaterialPageRoute(
                     builder: (BuildContext context) => ScreenStart()));
           } else {
-            Scaffold.of(context).showSnackBar(SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Please add your subjects'),
             ));
           }
