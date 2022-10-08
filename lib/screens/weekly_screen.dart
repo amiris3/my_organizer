@@ -14,27 +14,28 @@ class _WeeklyScreenState extends State<WeeklyScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<Widget> myTabs = [];
-  List all = List<dynamic>();
+  List all = [];
   bool loading = true;
 
   void fillListTabs() {
     for (int i = 0; i < 7; i++) {
       myTabs.add(Tab(
+        height: 50,
         child: buildDateColumn(thisWeek[i]),
       ));
     }
   }
 
   Future<void> refreshList() async {
-    List<Exam> allExams = List<Exam>();
-    List<Lesson> allLessons = List<Lesson>();
+    List<Exam> allExams = [];
+    List<Lesson> allLessons = [];
     allExams = await ExamProvider.dbExams.getAllExams();
     allExams.removeWhere((element) => element.date.isBefore(DateTime.now()));
     allExams.sort((exam1, exam2) => exam1.date.compareTo(exam2.date));
     allLessons = await LessonProvider.dbLessons.getAllLessons();
     allLessons.removeWhere((element) => element.date.isBefore(DateTime.now()));
     allLessons.sort((lesson1, lesson2) => lesson1.date.compareTo(lesson2.date));
-    all = List<dynamic>();
+    all = [];
     all.addAll(allExams);
     all.addAll(allLessons);
     setState(() {
@@ -108,7 +109,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                   margin: EdgeInsets.all(8),
                   child: TabBar(
                     indicator: BoxDecoration(
-                      color: barColor,
+                      color: checkBoxColor.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(5),
                       shape: BoxShape.rectangle,
                     ),
@@ -179,7 +180,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                 width: 15,
               ),
               Container(
-                width: MediaQuery.of(context).size.width - 60,
+                width: MediaQuery.of(context).size.width / 1.15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -227,23 +228,22 @@ class _WeeklyScreenState extends State<WeeklyScreen>
             children: [
               SizedBox(width: 14),
               Container(
-                height: 90,
-                width: MediaQuery.of(context).size.width - 110,
+                height: MediaQuery.of(context).size.height / 10,
+                width: MediaQuery.of(context).size.width / 1.5,
                 decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: checkBoxColor.withOpacity(0.5)),
+                    border: Border.all(
+                        width: 1, color: checkBoxColor.withOpacity(0.5)),
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          spreadRadius: 1,
-                          offset: Offset(4, 6),
-                          color: checkBoxColor.withOpacity(0.4),
-                          blurRadius: 5
-                      )
-                    ]
-                ),
+                          spreadRadius: .5,
+                          offset: Offset(2, 2),
+                          color: checkBoxColor.withOpacity(0.2),
+                          blurRadius: 2)
+                    ]),
                 margin: EdgeInsets.only(right: 10, left: 30),
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -274,7 +274,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                               ),
                             ),
                             SizedBox(
-                              height: 5,
+                              height: 3,
                             ),
                             Text(
                               exam.examName,
@@ -354,7 +354,7 @@ class _WeeklyScreenState extends State<WeeklyScreen>
             children: [
               SizedBox(width: 14),
               Container(
-                height: 90,
+                height: MediaQuery.of(context).size.height / 8,
                 width: MediaQuery.of(context).size.width - 110,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -362,11 +362,10 @@ class _WeeklyScreenState extends State<WeeklyScreen>
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
-                        spreadRadius: 1,
-                        offset: Offset(3, 6),
-                        color: primaryColor.withOpacity(0.2),
-                        blurRadius: 4
-                      )
+                          spreadRadius: .5,
+                          offset: Offset(1, 2),
+                          color: primaryColor.withOpacity(0.2),
+                          blurRadius: 4)
                     ]),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -445,8 +444,8 @@ class _WeeklyScreenState extends State<WeeklyScreen>
         Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(
-            top: 4,
-            bottom: 3,
+            top: 3,
+            bottom: 5,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
@@ -461,8 +460,9 @@ class _WeeklyScreenState extends State<WeeklyScreen>
               )),
         ),
         Container(
+          height: 24,
           alignment: Alignment.center,
-          padding: EdgeInsets.only(top: 5, bottom: 3),
+          padding: EdgeInsets.only(top: 4, bottom: 2),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(30),

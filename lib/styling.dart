@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 LinearGradient mainGradient = LinearGradient(
   colors: [
-    Color.fromRGBO(226, 212, 250, 1),
-    Color.fromRGBO(144, 202, 226, 1),
+    Color.fromRGBO(239, 233, 225, 1),
+    Color.fromRGBO(239, 233, 225, 1),
   ],
 );
 
 LinearGradient listGradient = LinearGradient(
   colors: [
-    Colors.orange[100].withOpacity(0.5),
-    Colors.green[100].withOpacity(0.35),
-    Colors.orange[100].withOpacity(0.5),
+    Color.fromRGBO(102, 47, 19, 0.5),
+    Color.fromRGBO(239, 233, 225, 1),
+    Color.fromRGBO(239, 233, 225, 1)
   ],
 );
 
-Color primaryColor = Colors.deepPurple[900];
-Color barColor = Colors.lightBlue[100].withOpacity(0.5);
-Color checkBoxColor = Color.fromRGBO(144, 202, 226, 1);
+Color primaryColor = Color.fromRGBO(102, 47, 19, 0.7);
+Color barColor = Color.fromRGBO(250, 247, 244, 1);
+Color checkBoxColor = Color.fromRGBO(190, 157, 128, 1);

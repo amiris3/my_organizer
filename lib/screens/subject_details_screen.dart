@@ -43,7 +43,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
           backgroundColor: primaryColor,
           actions: [
             PopupMenuButton<Map>(
-              offset: Offset(0, 100),
+              offset: Offset(0, 55),
               icon: Icon(Icons.more_horiz),
               onSelected: (Map map) {
                 _callAction(map);
@@ -62,36 +62,37 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
           scrollDirection: Axis.vertical,
           child: Container(
             decoration: BoxDecoration(gradient: mainGradient),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-            alignment: Alignment.topCenter,
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            alignment: Alignment.center,
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.all(8),
-                  height: 130,
+                  margin: const EdgeInsets.all(4),
+                  height: MediaQuery.of(context).size.height / 6,
+                  width: MediaQuery.of(context).size.height / 1.5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.height / 6,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20)),
-                        child: Card(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 24.0, vertical: 8.0),
-                          elevation: 0,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 5.0),
                           child: CircularPercentIndicator(
                             footer: new Text(
                               "completed",
                               style: new TextStyle(
                                   fontSize: 15.0, color: Colors.grey),
                             ),
-                            radius: 80,
-                            lineWidth: 13.0,
+                            radius: 40,
+                            lineWidth: 8.0,
                             animation: true,
                             percent: getCompletionRate() / 100,
                             center: new Text(
@@ -102,19 +103,20 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                                   fontWeight: FontWeight.bold, fontSize: 20.0),
                             ),
                             circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: Colors.blue[900],
+                            progressColor: primaryColor,
                             backgroundColor:
                                 Color.fromRGBO(144, 202, 226, 0.25),
                           ),
                         ),
                       ),
                       Container(
+                        width: MediaQuery.of(context).size.width / 3,
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20)),
                         child: Card(
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 16.0, vertical: 5.0),
+                              horizontal: 12.0, vertical: 5.0),
                           elevation: 0,
                           color: Colors.white,
                           child: Column(
@@ -125,7 +127,7 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                                 style:
                                     TextStyle(fontSize: 15, color: Colors.grey),
                               ),
-                              SizedBox(height: 15),
+                              SizedBox(height: 18),
                               Text(
                                 calculateMedian() == -1
                                     ? 'unknown'
@@ -150,8 +152,9 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                   ),
                   margin:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
-                  padding: const EdgeInsets.all(8),
-                  height: 455,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  height: 465,
                   child: widget.allExams.length == 0
                       ? Center(
                           child: Text(
@@ -184,16 +187,16 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
                                     children: [
                                       CircleAvatar(
                                         radius: 23,
-                                        backgroundColor: Colors.deepPurple[900],
+                                        backgroundColor: barColor,
                                         child: Text(
                                           widget.allExams[index].grade == -1
                                               ? '?'
                                               : widget.allExams[index].grade
                                                   .toString(),
                                           style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 17,
-                                          ),
+                                              color: primaryColor,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600),
                                         ),
                                       ),
                                     ],

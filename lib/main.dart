@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
