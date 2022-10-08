@@ -17,9 +17,7 @@ class _ScreenStartState extends State<ScreenStart> {
     AllSubjectsScreen(),
   ];
 
-  List<IconData> icons = [
-    Icons.home, Icons.today, Icons.assessment
-  ];
+  List<IconData> icons = [Icons.home, Icons.today, Icons.assessment];
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +28,20 @@ class _ScreenStartState extends State<ScreenStart> {
           unselectedFontSize: 0,
           backgroundColor: barColor,
           unselectedItemColor: Colors.black45,
-          selectedIconTheme: IconThemeData(
-              color: primaryColor
-          ),
+          selectedIconTheme: IconThemeData(color: primaryColor),
           currentIndex: _selectedItemIndex,
           type: BottomNavigationBarType.fixed,
           onTap: (int index) {
             setState(() {
               _selectedItemIndex = index;
             });
-            },
+          },
           items: [
             for (IconData icon in icons)
-              BottomNavigationBarItem(
-                title: Text(''),
-                icon: Icon(icon),
-              ),
+              BottomNavigationBarItem(icon: Icon(icon), label: "hey"),
           ],
           iconSize: 28,
         ),
         body: pages[_selectedItemIndex]);
   }
 }
-
-
