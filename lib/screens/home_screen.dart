@@ -5,7 +5,6 @@ import '../models/exam.dart';
 import '../database/exam_provider.dart';
 import '../database/lesson_provider.dart';
 
-
 class HomeScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _HomeScreenState();
@@ -24,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     allLessons = await LessonProvider.dbLessons.getAllLessons();
     allLessons.removeWhere((element) => element.date.isBefore(DateTime.now()));
     allLessons.sort((lesson1, lesson2) => lesson1.date.compareTo(lesson2.date));
-    if (allLessons.length >= 2) allLessons.removeRange(2, allExams.length);
+    //if (allLessons.length > 2) allLessons.removeRange(2, allExams.length);
     setState(() {
       loading = false;
     });
@@ -42,7 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Container(
           decoration: BoxDecoration(gradient: mainGradient),
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 32,
+              vertical: MediaQuery.of(context).size.height / 16),
           child: Column(
             children: [
               Container(
@@ -68,24 +69,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: MediaQuery.of(context).size.height / 48,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 65,
-                    height: 65,
+                    width: MediaQuery.of(context).size.width / 6,
+                    height: MediaQuery.of(context).size.height / 12,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(width: 1, color: Colors.white),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blueGrey.withOpacity(0.2),
-                          blurRadius: 12,
-                          spreadRadius: 8,
-                        )
-                      ],
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
@@ -94,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: 20,
+                    width: MediaQuery.of(context).size.width / 24,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 8,
                       ),
                       Text(
                         "here is your upcoming schedule:",
@@ -126,35 +120,38 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Positioned(
-          top: 175,
+          top: MediaQuery.of(context).size.height / 4.5,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            height: MediaQuery.of(context).size.height - 265,
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 32),
+            height: MediaQuery.of(context).size.height / 1.5,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),
             ),
-            child: loading ? CircularProgressIndicator()
-            : ListView(
-              children: [
-                buildTitleRow("NEXT TWO CLASSES"),
-                SizedBox(
-                  height: 24,
-                ),
-                ((allLessons.length == 0) || (allLessons.length == null)) ?
-                    Text('There are no classes available')
-                : buildLessonItem(allLessons[0]),
-                (allLessons.length <= 1) ?
-                Text('') : buildLessonItem(allLessons[1]),
-                SizedBox(
-                  height: 45,
-                ),
-                buildTitleRow("NEXT THREE EXAMS"),
-                SizedBox(
-                  height: 24,
-                ),
-                SingleChildScrollView(
+            child: loading
+                ? CircularProgressIndicator()
+                : ListView(
+                    children: [
+                      buildTitleRow("NEXT TWO CLASSES"),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 32,
+                      ),
+                      ((allLessons.length == 0) || (allLessons.length == null))
+                          ? Text('There are no classes available')
+                          : buildLessonItem(allLessons[0]),
+                      (allLessons.length <= 1)
+                          ? Text('')
+                          : buildLessonItem(allLessons[1]),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 30,
+                      ),
+                      buildTitleRow("NEXT THREE EXAMS"),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 32,
+                      ),
+                      SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
@@ -163,8 +160,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-              ],
-            ),
+                    ],
+                  ),
           ),
         )
       ],
@@ -174,9 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Container buildExamItem(Exam exam) {
     int numDays = exam.date.difference(DateTime.now()).inDays;
     return Container(
-      margin: EdgeInsets.only(right: 15),
-      padding: EdgeInsets.all(12),
-      height: 130,
+      margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 24),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 32),
+      height: MediaQuery.of(context).size.height / 7,
       width: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -189,20 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Coming up",
-            style: TextStyle(
-                fontSize: 13,
-                color: Colors.grey),
-          ),
-          SizedBox(
-            height: 7,
-          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 height: 7,
                 width: 7,
+                alignment: Alignment.centerLeft,
                 decoration: BoxDecoration(
                   color: numDays <= 3
                       ? Colors.red.withOpacity(0.3)
@@ -211,34 +201,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                width: 5,
+                width: MediaQuery.of(context).size.width / 64,
               ),
               Text(
                 numDays == 0 ? 'today' : "$numDays days left",
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
               ),
             ],
           ),
           SizedBox(
-            height: 12,
+            height: MediaQuery.of(context).size.height / 64,
           ),
           Container(
-            width: 100,
+            alignment: Alignment.center,
             child: Text(
               exam.subjectName,
               style: TextStyle(fontSize: 16),
             ),
           ),
           SizedBox(
-            height: 16,
+            height: MediaQuery.of(context).size.height / 64,
           ),
           Container(
-            width: 100,
+            alignment: Alignment.center,
             child: Text(
               exam.examName,
-              style: TextStyle(fontSize: 13, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: Colors.grey),
             ),
           ),
         ],
@@ -255,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
           text: TextSpan(
             text: title,
             style: TextStyle(
-                fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold),
+                fontSize: 13, color: primaryColor, fontWeight: FontWeight.w800),
           ),
         ),
       ],
@@ -280,10 +268,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(3.5),
                 child: Text(
-                  lesson.date.month.toString() + "/" + lesson.date.day.toString(),
-                  style:
-                  TextStyle(fontWeight: FontWeight.bold, color: Colors.grey,
-                  fontSize: 16),
+                  lesson.date.month.toString() +
+                      "/" +
+                      lesson.date.day.toString(),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                      fontSize: 16),
                 ),
               ),
               Padding(

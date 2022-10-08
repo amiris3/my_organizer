@@ -3,9 +3,9 @@
     "short_name": "OrganiZer",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter application.",
+    "background_color": "#EFE9E1",
+    "theme_color": "#662F13",
+    "description": "OrganiZer is an app that lets you create a khôlloscope.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

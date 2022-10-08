@@ -126,23 +126,3 @@ class _AddExamState extends State<AddExam> {
     );
   }
 }
-
-/*
-DropdownButtonFormField(
-value: widget.subjectNames[0],
-decoration:
-InputDecoration(labelText: 'Subject'),
-validator: (value) {
-if (value.isEmpty) {
-return 'Please choose a subject';
-}
-},
-items: widget.subjectNames.map((String subjectName) {
-return DropdownMenuItem<String>(
-value: subjectName,
-child: Text(subjectName),
-);
-}).toList(),
-onChanged: (String newValue) {},
-onSaved: (subjectName) => setState(()=> _exam.subjectName = subjectName),
-),*/
