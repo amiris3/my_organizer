@@ -1,4 +1,4 @@
-import 'screens/splash_screen.dart';
+import 'presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

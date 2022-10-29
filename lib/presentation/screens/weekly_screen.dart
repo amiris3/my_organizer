@@ -1,9 +1,9 @@
-import '../database/lesson_provider.dart';
-import '../models/lesson.dart';
-import '../database/exam_provider.dart';
+import '../../data/database/lesson_provider.dart';
+import '../../data/models/lesson.dart';
+import '../../data/database/exam_provider.dart';
 import '../styling.dart';
 import 'package:flutter/material.dart';
-import '../models/exam.dart';
+import '../../data/models/exam.dart';
 
 class WeeklyScreen extends StatefulWidget {
   @override

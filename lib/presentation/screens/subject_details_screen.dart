@@ -1,9 +1,9 @@
 import 'forms/add_lesson.dart';
 import 'forms/add_exam.dart';
-import '../database/exam_provider.dart';
-import '../database/subject_provider.dart';
-import '../models/subject.dart';
-import '../models/exam.dart';
+import '../../data/database/exam_provider.dart';
+import '../../data/database/subject_provider.dart';
+import '../../data/models/subject.dart';
+import '../../data/models/exam.dart';
 import '../styling.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';

@@ -1,8 +1,8 @@
 import '../../widgets/basic_form.dart';
-import '../../database/subject_provider.dart';
+import '../../../data/database/subject_provider.dart';
 import '../../styling.dart';
 import 'package:flutter/material.dart';
-import '../../models/subject.dart';
+import '../../../data/models/subject.dart';
 
 class AddSubject extends StatefulWidget {
   @override

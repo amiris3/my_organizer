@@ -3,7 +3,6 @@ import 'subject.dart';
 import 'exam.dart';
 
 class Plan {
-
   int weeksNb;
   DateTime begin;
   List<Subject> listOfSubjects;
@@ -16,12 +15,12 @@ class Plan {
     //same subject following each other (five times better than one)
     List<String> listOfStrings = List<String>();
     for (Subject subject in listOfSubjects) {
-      for (int i=0;i<subject.khNb;i++) {
+      for (int i = 0; i < subject.khNb; i++) {
         listOfStrings.add(subject.name);
       }
     }
     listOfStrings.shuffle();
-    for (int i=0; i<5;i++) {
+    for (int i = 0; i < 5; i++) {
       listOfStrings = rearrangeList(listOfStrings);
     }
 
@@ -33,45 +32,45 @@ class Plan {
     int khNb2weeks = weeksNb - khNb3weeks;
     List<int> khNumberPerWeek = List();
 
-    for (int i=0;i<khNb2weeks;i++) {
+    for (int i = 0; i < khNb2weeks; i++) {
       khNumberPerWeek.add(2);
     }
-    for (int i=0;i<khNb3weeks;i++) {
+    for (int i = 0; i < khNb3weeks; i++) {
       khNumberPerWeek.add(3);
     }
     assert(khNumberPerWeek.length == weeksNb);
     khNumberPerWeek.shuffle();
 
-    List<Exam> listOfExams = createListOfExams(listOfStrings.length, khNumberPerWeek, listOfStrings);
+    List<Exam> listOfExams =
+        createListOfExams(listOfStrings.length, khNumberPerWeek, listOfStrings);
     insertListOfExamsInDatabase(listOfExams);
-
   }
 
   List<String> rearrangeList(List<String> list) {
-    for (int y = 0; y<list.length-1;y++) {
-      if (list[y] == list[y+1]) {
-        if (y == list.length-1) {
+    for (int y = 0; y < list.length - 1; y++) {
+      if (list[y] == list[y + 1]) {
+        if (y == list.length - 1) {
           String temp = list[y];
-          list[y] = list[y-1];
-          list[y-1] = temp;
-        }
-        else {
+          list[y] = list[y - 1];
+          list[y - 1] = temp;
+        } else {
           String temp = list[y];
-          list[y] = list[y+1];
-          list[y+1] = temp;
+          list[y] = list[y + 1];
+          list[y + 1] = temp;
         }
       }
     }
     return list;
   }
 
-  List<Exam> createListOfExams(int khNb, List<int> nbKhPerWeek, List<String> subjectNames) {
+  List<Exam> createListOfExams(
+      int khNb, List<int> nbKhPerWeek, List<String> subjectNames) {
     List<Exam> list = List<Exam>();
     int khNumber = 1;
 
     //first, find the next date being a Monday from the begin date's weekday
     //set it to 18h
-    int numDaysToAdd = begin.weekday == 1 ? 0 : 8-begin.weekday;
+    int numDaysToAdd = begin.weekday == 1 ? 0 : 8 - begin.weekday;
     begin = begin.add(Duration(days: numDaysToAdd));
     DateTime currentDate = DateTime(begin.year, begin.month, begin.day, 18, 00);
 
@@ -85,47 +84,65 @@ class Plan {
         //to test later :
         // if (currentDate.weekday != 1) currentDate = currentDate.add(Duration(days: 8-currentDate.weekday));
         list.add(Exam(
-          examName: 'Khôlle n°' + khNumber.toString(),
-          subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
+            examName: 'Khôlle n°' + khNumber.toString(),
+            subjectName: subjectNames[khNumber - 1],
+            durationInMinutes: 30,
+            grade: -1,
+            isKholle: true,
+            isFromUni: false,
+            date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
 
         //thursday
         list.add(Exam(
-          examName: 'Khôlle n°' + khNumber.toString(),
-          subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
+            examName: 'Khôlle n°' + khNumber.toString(),
+            subjectName: subjectNames[khNumber - 1],
+            durationInMinutes: 30,
+            grade: -1,
+            isKholle: true,
+            isFromUni: false,
+            date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 3));
-
-      }
-      else {
+      } else {
         //monday
         list.add(Exam(
-          examName: 'Khôlle n°' + khNumber.toString(),
-          subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
+            examName: 'Khôlle n°' + khNumber.toString(),
+            subjectName: subjectNames[khNumber - 1],
+            durationInMinutes: 30,
+            grade: -1,
+            isKholle: true,
+            isFromUni: false,
+            date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
 
         //wednesday
         list.add(Exam(
-          examName: 'Khôlle n°' + khNumber.toString(),
-          subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
+            examName: 'Khôlle n°' + khNumber.toString(),
+            subjectName: subjectNames[khNumber - 1],
+            durationInMinutes: 30,
+            grade: -1,
+            isKholle: true,
+            isFromUni: false,
+            date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
 
         //friday
         list.add(Exam(
-          examName: 'Khôlle n°' + khNumber.toString(),
-          subjectName: subjectNames[khNumber-1], durationInMinutes: 30,
-          grade: -1, isKholle: true, isFromUni: false, date: currentDate));
+            examName: 'Khôlle n°' + khNumber.toString(),
+            subjectName: subjectNames[khNumber - 1],
+            durationInMinutes: 30,
+            grade: -1,
+            isKholle: true,
+            isFromUni: false,
+            date: currentDate));
 
         khNumber++;
         currentDate = currentDate.add(Duration(days: 2));
@@ -136,7 +153,10 @@ class Plan {
           examName: 'DS n° $weeklyNb',
           subjectName: listOfSubjects[weeklyNb % listOfSubjects.length].name,
           durationInMinutes: 60,
-          grade: -1, isKholle: false, isFromUni: false, date: currentDate));
+          grade: -1,
+          isKholle: false,
+          isFromUni: false,
+          date: currentDate));
 
       weeklyNb++;
       currentDate = currentDate.add(Duration(days: 1));
@@ -149,7 +169,4 @@ class Plan {
       await ExamProvider.dbExams.insertExam(exam);
     }
   }
-
 }
-
-

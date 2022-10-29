@@ -2,10 +2,10 @@ import 'dart:math';
 
 import '../styling.dart';
 import 'package:flutter/material.dart';
-import '../models/lesson.dart';
-import '../models/exam.dart';
-import '../database/exam_provider.dart';
-import '../database/lesson_provider.dart';
+import '../../data/models/lesson.dart';
+import '../../data/models/exam.dart';
+import '../../data/database/exam_provider.dart';
+import '../../data/database/lesson_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

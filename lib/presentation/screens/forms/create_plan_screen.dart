@@ -1,10 +1,10 @@
 import '../../widgets/basic_form.dart';
-import '../../database/subject_provider.dart';
-import '../../models/plan.dart';
+import '../../../data/database/subject_provider.dart';
+import '../../../data/models/plan.dart';
 import '../../screens/screen_start.dart';
 import '../../styling.dart';
 import 'package:flutter/material.dart';
-import '../../models/subject.dart';
+import '../../../data/models/subject.dart';
 import 'add_subject.dart';
 
 class CreatePlanScreen extends StatefulWidget {

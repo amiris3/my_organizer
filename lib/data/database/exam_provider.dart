@@ -3,7 +3,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ExamProvider {
-
   static const String TABLE_EXAM_NAME = "exam";
   static const String COLUMN_EXAM_ID = "examId";
   static const String COLUMN_EXAM_SUBJECT_NAME = "subjectName";
@@ -13,7 +12,6 @@ class ExamProvider {
   static const String COLUMN_EXAM_IS_FROM_UNI = 'isFromUni';
   static const String COLUMN_EXAM_DURATION = 'durationInMinutes';
   static const String COLUMN_EXAM_GRADE = 'grade';
-
 
   ExamProvider._();
 
@@ -28,23 +26,18 @@ class ExamProvider {
 
   Future<Database> createExamDatabase() async {
     String dbPath = await getDatabasesPath();
-    return await openDatabase(
-        join(dbPath, 'examsDb.db'),
-        version: 1,
+    return await openDatabase(join(dbPath, 'examsDb.db'), version: 1,
         onCreate: (Database database, int version) async {
-          await database.execute(
-              "CREATE TABLE $TABLE_EXAM_NAME ("
-                  "$COLUMN_EXAM_ID INTEGER PRIMARY KEY,"
-                  "$COLUMN_EXAM_SUBJECT_NAME TEXT,"
-                  "$COLUMN_EXAM_NAME TEXT,"
-                  "$COLUMN_EXAM_DATE TEXT,"
-                  "$COLUMN_EXAM_IS_KHOLLE INTEGER,"
-                  "$COLUMN_EXAM_IS_FROM_UNI INTEGER,"
-                  "$COLUMN_EXAM_DURATION INTEGER,"
-                  "$COLUMN_EXAM_GRADE FLOAT)"
-          );
-        }
-    );
+      await database.execute("CREATE TABLE $TABLE_EXAM_NAME ("
+          "$COLUMN_EXAM_ID INTEGER PRIMARY KEY,"
+          "$COLUMN_EXAM_SUBJECT_NAME TEXT,"
+          "$COLUMN_EXAM_NAME TEXT,"
+          "$COLUMN_EXAM_DATE TEXT,"
+          "$COLUMN_EXAM_IS_KHOLLE INTEGER,"
+          "$COLUMN_EXAM_IS_FROM_UNI INTEGER,"
+          "$COLUMN_EXAM_DURATION INTEGER,"
+          "$COLUMN_EXAM_GRADE FLOAT)");
+    });
   }
 
   Future<List<Exam>> getAllExams() async {
@@ -72,28 +65,19 @@ class ExamProvider {
 
   Future<Exam> insertExam(Exam exam) async {
     final db = await database;
-    exam.examId = await db.insert(
-        TABLE_EXAM_NAME,
-        exam.toMap());
+    exam.examId = await db.insert(TABLE_EXAM_NAME, exam.toMap());
     return exam;
   }
 
   Future<void> updateExam(Exam exam) async {
     final db = await database;
-    await db.update(
-        TABLE_EXAM_NAME,
-        exam.toMap(),
-        where: '$COLUMN_EXAM_ID = ?',
-        whereArgs: [exam.examId]);
+    await db.update(TABLE_EXAM_NAME, exam.toMap(),
+        where: '$COLUMN_EXAM_ID = ?', whereArgs: [exam.examId]);
   }
 
   Future<void> deleteExam(Exam exam) async {
     final db = await database;
-    await db.delete(
-        TABLE_EXAM_NAME,
-        where: '$COLUMN_EXAM_ID = ?',
-        whereArgs: [exam.examId]);
+    await db.delete(TABLE_EXAM_NAME,
+        where: '$COLUMN_EXAM_ID = ?', whereArgs: [exam.examId]);
   }
-
 }
-

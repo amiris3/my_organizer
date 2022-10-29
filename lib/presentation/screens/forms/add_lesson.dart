@@ -1,21 +1,21 @@
 import '../../widgets/basic_form.dart';
-import '../../database/exam_provider.dart';
+import '../../../data/database/lesson_provider.dart';
 import '../../styling.dart';
 import 'package:flutter/material.dart';
-import '../../models/exam.dart';
+import '../../../data/models/lesson.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
-class AddExam extends StatefulWidget {
+class AddLesson extends StatefulWidget {
   final String subjectName;
-  AddExam({this.subjectName});
+  AddLesson({this.subjectName});
 
   @override
-  _AddExamState createState() => _AddExamState();
+  _AddLessonState createState() => _AddLessonState();
 }
 
-class _AddExamState extends State<AddExam> {
+class _AddLessonState extends State<AddLesson> {
   final _formKey = GlobalKey<FormState>();
-  final _exam = Exam();
+  final _lesson = Lesson();
   DateTime timeOfDay = DateTime.now();
   DateTime chosenDate = DateTime.now();
 
@@ -26,7 +26,7 @@ class _AddExamState extends State<AddExam> {
             backgroundColor: primaryColor,
             centerTitle: true,
             title: Text(
-              'Add an exam for ' + widget.subjectName,
+              'Add a lesson for ' + widget.subjectName,
               style: TextStyle(
                 fontSize: 23,
               ),
@@ -41,25 +41,22 @@ class _AddExamState extends State<AddExam> {
   List<Widget> getWidgets() {
     return [
       TextFormField(
-        decoration: InputDecoration(labelText: 'Exam name'),
+        decoration: InputDecoration(labelText: 'Teacher'),
         validator: (value) {
           if (value.isEmpty) {
-            return 'Please enter the exam\'s name';
+            return 'Please enter the lesson\'s teacher';
           }
         },
-        onSaved: (val) => setState(() => _exam.examName = val),
+        onSaved: (val) => setState(() => _lesson.teacher = val),
       ),
       TextFormField(
-        decoration: InputDecoration(labelText: 'Duration in minutes'),
+        decoration: InputDecoration(labelText: 'Location'),
         validator: (value) {
-          var potentialNb = int.tryParse(value);
-          print('parsed the nb');
-          if (potentialNb == null) {
-            return 'Please enter the duration in minutes';
+          if (value.isEmpty) {
+            return 'Please enter the lesson\'s location';
           }
         },
-        onSaved: (val) =>
-            setState(() => _exam.durationInMinutes = int.parse(val)),
+        onSaved: (val) => setState(() => _lesson.location = val),
       ),
       InputDatePickerFormField(
         fieldLabelText: 'Date',
@@ -106,13 +103,10 @@ class _AddExamState extends State<AddExam> {
         final form = _formKey.currentState;
         if (form.validate()) {
           form.save();
-          _exam.subjectName = widget.subjectName;
-          _exam.date = DateTime(chosenDate.year, chosenDate.month,
+          _lesson.subjectName = widget.subjectName;
+          _lesson.date = DateTime(chosenDate.year, chosenDate.month,
               chosenDate.day, timeOfDay.hour, timeOfDay.minute);
-          _exam.grade = -1;
-          _exam.isFromUni = true;
-          _exam.isKholle = false;
-          await ExamProvider.dbExams.insertExam(_exam).then((value) {
+          await LessonProvider.dbLessons.insertLesson(_lesson).then((value) {
             Navigator.pop(context);
           });
         } else {

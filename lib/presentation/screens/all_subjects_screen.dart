@@ -1,10 +1,10 @@
 import 'package:simple_speed_dial/simple_speed_dial.dart';
-import '../database/exam_provider.dart';
+import '../../data/database/exam_provider.dart';
 import '../styling.dart';
 import 'package:flutter/material.dart';
-import '../models/exam.dart';
-import '../models/subject.dart';
-import '../database/subject_provider.dart';
+import '../../data/models/exam.dart';
+import '../../data/models/subject.dart';
+import '../../data/database/subject_provider.dart';
 import 'forms/add_subject.dart';
 import 'forms/create_plan_screen.dart';
 import 'subject_details_screen.dart';
