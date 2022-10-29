@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../styling.dart';
 import 'package:flutter/material.dart';
 import '../models/lesson.dart';
@@ -140,10 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ((allLessons.length == 0) || (allLessons.length == null))
                           ? Text('There are no classes available')
-                          : buildLessonItem(allLessons[0]),
-                      (allLessons.length <= 1)
-                          ? Text('')
-                          : buildLessonItem(allLessons[1]),
+                          : Column(
+                              children: [
+                                for (int i = 0;
+                                    i < min(allLessons.length, 2);
+                                    i++)
+                                  buildLessonItem(allLessons[i]),
+                              ],
+                            ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 30,
                       ),
@@ -153,12 +159,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            for (int i = 0; i < 3; i++)
-                              buildExamItem(allExams[i]),
-                          ],
-                        ),
+                        child: (allExams.length > 0)
+                            ? Row(
+                                children: [
+                                  for (int i = 0;
+                                      i < min(allExams.length, 3);
+                                      i++)
+                                    buildExamItem(allExams[i]),
+                                ],
+                              )
+                            : Text('There are no exams  available'),
                       ),
                     ],
                   ),

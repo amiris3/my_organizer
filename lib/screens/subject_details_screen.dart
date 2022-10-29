@@ -348,13 +348,11 @@ class _SubjectDetailsScreenState extends State<SubjectDetailsScreen> {
         break;
       case 'delete this subject':
         await SubjectProvider.dbSubjects.deleteSubject(this.widget.subject);
-        /* not working because wrong context :
-        Scaffold.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-              widget.subject.name + ' has been successfully deleted',)
-        ));*/
         Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+          widget.subject.name + ' has been successfully deleted',
+        )));
         break;
     }
   }
